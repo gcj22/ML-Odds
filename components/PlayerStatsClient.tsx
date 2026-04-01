@@ -1,22 +1,42 @@
-// Safe number helpers
-function isFiniteNumber(value) {
-    return typeof value === 'number' && isFinite(value);
-}
+import React from 'react';
+import { PlayerStats, GoalStats } from './types';
 
-function fmtFixed(v, digits) {
-    return isFiniteNumber(v) ? v.toFixed(digits) : 'N/A';
-}
+// Number formatting helpers
+const formatPercentage = (value: number): string => {
+    return `${(value * 100).toFixed(0)}%`;
+};
 
-function fmtPct1(v) {
-    return isFiniteNumber(v) ? `${(v * 100).toFixed(1)}%` : 'N/A';
-}
+const formatRatio = (value: number): string => {
+    return value.toFixed(3);
+};
 
-// Updated contents for PlayerStatsClient.tsx
+const formatGoalsAgainstAverage = (value: number): string => {
+    return value.toFixed(2);
+};
 
-// Assume the rest of the component is preserved from the version in the ref cbdb7779d1eb634e28ccc5ceaa2452d12c945ec7
+const PlayerStatsClient: React.FC<{ stats: PlayerStats[] }> = ({ stats }) => {
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Shooting Percentage</th>
+                    <th>Goals Against Average</th>
+                    <th>Save Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {stats.map((player) => (
+                    <tr key={player.id}>
+                        <td>{player.name}</td>
+                        <td>{formatPercentage(player.shootingPctg)}</td>
+                        <td>{formatGoalsAgainstAverage(player.goalsAgainstAvg)}</td>
+                        <td>{formatRatio(player.savePctg)}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
 
-const shootingPctg = fmtPct1(playerStats.shootingPercentage);
-const goalsAgainstAvg = fmtFixed(playerStats.goalsAgainstAverage, 2);
-const savePctg = fmtPct1(playerStats.savePercentage);
-
-// Your component code continues...
+export default PlayerStatsClient;
