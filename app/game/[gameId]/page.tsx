@@ -8,11 +8,11 @@ import Link from 'next/link';
 export const revalidate = 30;
 
 interface GamePageProps {
-  params: { gameId: string };
+  params: Promise<{ gameId: string }>;
 }
 
 export default async function GamePage({ params }: GamePageProps) {
-  const { gameId } = params;
+  const { gameId } = await params;
   let boxscore = null;
   let bestLines = undefined;
   let prediction = undefined;

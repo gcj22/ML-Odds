@@ -6,10 +6,10 @@ import { predictGame } from '@/lib/predictions';
 
 export async function GET(
   _request: Request,
-  { params }: { params: { gameId: string } }
+  { params }: { params: Promise<{ gameId: string }> }
 ) {
   try {
-    const { gameId } = params;
+    const { gameId } = await params;
     const [boxscore, oddsGames] = await Promise.all([
       getNHLBoxscore(gameId),
       getOdds(['h2h', 'spreads', 'totals']),

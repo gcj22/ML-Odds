@@ -10,11 +10,12 @@ import { GamePrediction } from '@/lib/types';
 export const revalidate = 60;
 
 interface ScoresPageProps {
-  searchParams: { date?: string };
+  searchParams: Promise<{ date?: string }>;
 }
 
 export default async function ScoresPage({ searchParams }: ScoresPageProps) {
-  const date = searchParams.date ?? getTodayDateString();
+  const { date: dateParam } = await searchParams;
+  const date = dateParam ?? getTodayDateString();
   let games: Awaited<ReturnType<typeof getTodayGames>> = [];
   let bestLinesList: ReturnType<typeof computeBestLines> = [];
   let predictions: GamePrediction[] = [];
