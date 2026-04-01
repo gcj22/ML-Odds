@@ -1,6 +1,7 @@
 import { getNHLSkaterStats, getNHLGoalieStats } from '@/lib/nhl-api';
 import PlayerStatsClient from '@/components/PlayerStatsClient';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 300;
 
 export default async function PlayerStatsPage() {
