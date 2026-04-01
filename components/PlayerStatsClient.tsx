@@ -1,12 +1,9 @@
-// Helper functions
-const isFiniteNumber = (num) => typeof num === 'number' && isFinite(num);
-const fmtFixed = (num) => (isFiniteNumber(num) ? num.toFixed(2) : 'N/A');
-const fmtPct1 = (num) => (isFiniteNumber(num) ? (num * 100).toFixed(1) + '%' : 'N/A');
+import { isFiniteNumber, fmtFixed, fmtPct1 } from 'myHelpers';
 
-//... existing code ...
+// ... other imports
 
-const shootingPctg = fmtPct1(player?.shootingPctg);
-const goalsAgainstAvg = fmtFixed(goalie?.goalsAgainstAvg);
-const savePctg = fmtPct1(goalie?.savePctg);
+const shootingPctg = isFiniteNumber(player.shootingPctg) ? fmtPct1(player.shootingPctg) : 'N/A';
+const goalsAgainstAvg = isFiniteNumber(player.goalsAgainstAvg) ? fmtFixed(player.goalsAgainstAvg, 2) : 'N/A';
+const savePctg = isFiniteNumber(player.savePctg) ? fmtFixed(player.savePctg, 2) : 'N/A';
 
-//... existing code ...
+// ... rest of PlayerStatsClient.tsx code ...
