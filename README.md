@@ -52,6 +52,10 @@ Open [http://localhost:3000](http://localhost:3000).
 |-------|-------------|
 | `/` | Today hub — live scoreboard + top edges + game cards |
 | `/scores` | Full scoreboard with date navigation |
+| `/schedule` | Full NHL schedule browser with date picker (prev/next week) |
+| `/standings` | Conference and division standings with sortable columns |
+| `/stats/players` | Player statistics leaders — skaters and goalies, searchable |
+| `/player/[playerId]` | Individual player profile and season stats |
 | `/odds` | Best available odds across all books |
 | `/game/[gameId]` | Game center — boxscore + odds + predictions |
 
@@ -70,6 +74,10 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - **NHL Schedule & Scores**: `https://api-web.nhle.com/v1/schedule/now`
 - **NHL Boxscore**: `https://api-web.nhle.com/v1/gamecenter/{gameId}/boxscore`
+- **NHL Standings**: `https://api-web.nhle.com/v1/standings/now`
+- **NHL Skater Stats Leaders**: `https://api-web.nhle.com/v1/skater-stats-leaders/current`
+- **NHL Goalie Stats Leaders**: `https://api-web.nhle.com/v1/goalie-stats-leaders/current`
+- **NHL Player Profile**: `https://api-web.nhle.com/v1/player/{playerId}/landing`
 - **Odds**: `https://api.the-odds-api.com/v4/sports/icehockey_nhl/odds`
 
 ## Prediction Model

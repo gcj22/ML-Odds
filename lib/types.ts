@@ -156,6 +156,124 @@ export interface GamePrediction {
   };
 }
 
+// NHL Standings Types
+export interface NHLStandingsTeam {
+  teamName: { default: string };
+  teamAbbrev: { default: string };
+  teamLogo: string;
+  conferenceName: string;
+  divisionName: string;
+  gamesPlayed: number;
+  wins: number;
+  losses: number;
+  otLosses: number;
+  points: number;
+  pointPctg: number;
+  regulationWins: number;
+  regulationPlusOtWins: number;
+  goalFor: number;
+  goalAgainst: number;
+  goalDifferential: number;
+  streakCode?: string;
+  streakCount?: number;
+  wildcardSequence?: number;
+  divisionSequence?: number;
+  conferenceSequence?: number;
+  leagueSequence?: number;
+}
+
+export interface NHLStandingsResponse {
+  standings: NHLStandingsTeam[];
+}
+
+// NHL Player Stats Types
+export interface NHLSkaterStat {
+  playerId: number;
+  headshot: string;
+  firstName: { default: string };
+  lastName: { default: string };
+  teamAbbrev: string;
+  position: string;
+  gamesPlayed: number;
+  goals: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
+  shots: number;
+  shootingPctg: number;
+  powerPlayGoals: number;
+  powerPlayPoints: number;
+  shortHandedGoals: number;
+  avgToi: string;
+  faceoffWinningPctg?: number;
+}
+
+export interface NHLGoalieStatEntry {
+  playerId: number;
+  headshot: string;
+  firstName: { default: string };
+  lastName: { default: string };
+  teamAbbrev: string;
+  gamesPlayed: number;
+  gamesStarted: number;
+  wins: number;
+  losses: number;
+  otLosses: number;
+  goalsAgainstAvg: number;
+  savePctg: number;
+  shotsAgainst: number;
+  saves: number;
+  shutouts: number;
+  avgToi: string;
+}
+
+export interface NHLPlayerProfile {
+  playerId: number;
+  firstName: { default: string };
+  lastName: { default: string };
+  sweaterNumber: number;
+  position: string;
+  headshot: string;
+  teamLogo: string;
+  teamAbbrev?: string;
+  birthDate: string;
+  birthCity: { default: string };
+  birthCountry: string;
+  heightInInches: number;
+  weightInPounds: number;
+  isActive: boolean;
+  featuredStats?: {
+    season: number;
+    regularSeason: {
+      subSeason: {
+        gamesPlayed: number;
+        goals?: number;
+        assists?: number;
+        points?: number;
+        plusMinus?: number;
+        pim?: number;
+        shots?: number;
+        avgToi?: string;
+        goalsAgainstAvg?: number;
+        savePctg?: number;
+        wins?: number;
+        losses?: number;
+        shutouts?: number;
+      };
+    };
+  };
+  last5Games?: Array<{
+    gameId: number;
+    goals?: number;
+    assists?: number;
+    points?: number;
+    plusMinus?: number;
+    toi?: string;
+    decision?: string;
+    savePctg?: number;
+  }>;
+}
+
 // Cache Types
 export interface CacheEntry<T> {
   data: T;
