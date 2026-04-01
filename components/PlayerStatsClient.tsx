@@ -1,34 +1,22 @@
-import { isFiniteNumber, fmtFixed, fmtPct1 } from 'myHelpers';
-
-// ... other imports
-
-const shootingPctg = isFiniteNumber(player.shootingPctg) ? fmtPct1(player.shootingPctg) : 'N/A';
-const goalsAgainstAvg = isFiniteNumber(player.goalsAgainstAvg) ? fmtFixed(player.goalsAgainstAvg, 2) : 'N/A';
-const savePctg = isFiniteNumber(player.savePctg) ? fmtFixed(player.savePctg, 2) : 'N/A';
-
-// ... rest of PlayerStatsClient.tsx code ...
-// Safe number formatting helper function
-function safeToFixed(value, decimals) {
-    return (typeof value === 'number' && !isNaN(value)) ? value.toFixed(decimals) : '0.00';
+// Safe number helpers
+function isFiniteNumber(value) {
+    return typeof value === 'number' && isFinite(value);
 }
 
-const PlayerStatsClient = () => {
-    //... other code
+function fmtFixed(v, digits) {
+    return isFiniteNumber(v) ? v.toFixed(digits) : 'N/A';
+}
 
-    const shootingPctg = safeToFixed(shootingP, 2);
-    const goalsAgainstAvg = safeToFixed(goalsAgainst, 2);
-    const savePctg = safeToFixed(savesPercentage, 2);
+function fmtPct1(v) {
+    return isFiniteNumber(v) ? `${(v * 100).toFixed(1)}%` : 'N/A';
+}
 
-    //... rest of the component logic remains unchanged
+// Updated contents for PlayerStatsClient.tsx
 
-    return (
-        <div>
-            {/* Render values here */}
-            <p>Shooting Percentage: {shootingPctg}</p>
-            <p>Goals Against Average: {goalsAgainstAvg}</p>
-            <p>Save Percentage: {savePctg}</p>
-        </div>
-    );
-};
+// Assume the rest of the component is preserved from the version in the ref cbdb7779d1eb634e28ccc5ceaa2452d12c945ec7
 
-export default PlayerStatsClient;
+const shootingPctg = fmtPct1(playerStats.shootingPercentage);
+const goalsAgainstAvg = fmtFixed(playerStats.goalsAgainstAverage, 2);
+const savePctg = fmtPct1(playerStats.savePercentage);
+
+// Your component code continues...
