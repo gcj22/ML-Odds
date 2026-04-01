@@ -1,24 +1,41 @@
-// Safe number formatting helper function
-function safeToFixed(value, decimals) {
-    return (typeof value === 'number' && !isNaN(value)) ? value.toFixed(decimals) : '0.00';
-}
+import React from 'react';
+import { PlayerStats, GoalStats } from './types';
 
-const PlayerStatsClient = () => {
-    //... other code
+// Number formatting helpers
+const formatPercentage = (value: number): string => {
+    return `${(value * 100).toFixed(0)}%`;
+};
 
-    const shootingPctg = safeToFixed(shootingP, 2);
-    const goalsAgainstAvg = safeToFixed(goalsAgainst, 2);
-    const savePctg = safeToFixed(savesPercentage, 2);
+const formatRatio = (value: number): string => {
+    return value.toFixed(3);
+};
 
-    //... rest of the component logic remains unchanged
+const formatGoalsAgainstAverage = (value: number): string => {
+    return value.toFixed(2);
+};
 
+const PlayerStatsClient: React.FC<{ stats: PlayerStats[] }> = ({ stats }) => {
     return (
-        <div>
-            {/* Render values here */}
-            <p>Shooting Percentage: {shootingPctg}</p>
-            <p>Goals Against Average: {goalsAgainstAvg}</p>
-            <p>Save Percentage: {savePctg}</p>
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Shooting Percentage</th>
+                    <th>Goals Against Average</th>
+                    <th>Save Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {stats.map((player) => (
+                    <tr key={player.id}>
+                        <td>{player.name}</td>
+                        <td>{formatPercentage(player.shootingPctg)}</td>
+                        <td>{formatGoalsAgainstAverage(player.goalsAgainstAvg)}</td>
+                        <td>{formatRatio(player.savePctg)}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
 };
 
