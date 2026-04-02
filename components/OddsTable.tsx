@@ -1,11 +1,10 @@
-import { BestLines } from '@/lib/types';
+import Link from 'next/link';
+import { BestLines, BestLine } from '@/lib/types';
 import { formatAmericanOdds } from '@/lib/utils';
 
 export default function OddsTable({ bestLinesList }: { bestLinesList: BestLines[] }) {
   if (bestLinesList.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
-        No odds available. Set ODDS_API_KEY to see live odds from The Odds API.
       <div
         className="text-center py-12 text-sm"
         style={{ color: '#524D47' }}
@@ -19,14 +18,8 @@ export default function OddsTable({ bestLinesList }: { bestLinesList: BestLines[
     <div className="overflow-x-auto">
       <table className="w-full" style={{ borderCollapse: 'collapse' }}>
         <thead>
-          <tr className="border-b border-border text-gray-400">
-            <th className="text-left py-3 px-4">Sport</th>
-            <th className="text-left py-3 px-4">Game</th>
-            <th className="text-left py-3 px-4">Time</th>
-            <th className="text-center py-3 px-4">Away ML</th>
-            <th className="text-center py-3 px-4">Home ML</th>
           <tr style={{ borderBottom: '1px solid #1C1C1C' }}>
-            {['Game', 'ML Away', 'ML Home', 'PL Away', 'PL Home', 'Over', 'Under'].map((h, i) => (
+            {['Game', 'Time', 'ML Away', 'ML Home', 'PL Away', 'PL Home', 'Over', 'Under'].map((h, i) => (
               <th
                 key={h}
                 style={{
@@ -54,15 +47,6 @@ export default function OddsTable({ bestLinesList }: { bestLinesList: BestLines[
                 borderBottom: rowIdx < bestLinesList.length - 1 ? '1px solid #1C1C1C' : 'none',
               }}
             >
-              <td className="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">
-                {game.sportTitle || game.sportKey}
-              </td>
-              <td className="py-3 px-4">
-                <div className="font-semibold">{game.awayTeam}</div>
-                <div className="font-semibold">@ {game.homeTeam}</div>
-              </td>
-              <td className="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">
-                {formatGameTime(game.commenceTime)}
               <td style={{ padding: '0.875rem 1rem' }}>
                 <Link
                   href={`/game/${game.gameId}`}
@@ -78,6 +62,10 @@ export default function OddsTable({ bestLinesList }: { bestLinesList: BestLines[
                     @ {game.homeTeam}
                   </p>
                 </Link>
+              </td>
+              <td style={{ padding: '0.875rem 1rem', textAlign: 'center',
+                fontSize: '0.75rem', color: '#8A8278', whiteSpace: 'nowrap' }}>
+                {formatGameTime(game.commenceTime)}
               </td>
               <OddsCell line={game.h2h?.away} />
               <OddsCell line={game.h2h?.home} />
@@ -111,8 +99,10 @@ function formatGameTime(utcTime: string): string {
 
 function OddsCell({
   line,
+  showPoint,
 }: {
-  line?: { price: number; bookTitle: string } | null;
+  line?: BestLine | null;
+  showPoint?: boolean;
 }) {
   if (!line) {
     return (
@@ -124,8 +114,6 @@ function OddsCell({
   }
 
   return (
-    <td className="py-3 px-4 text-center">
-      <div className="font-mono font-semibold text-yellow-400">
     <td style={{ padding: '0.875rem 1rem', textAlign: 'center' }}>
       <div
         style={{

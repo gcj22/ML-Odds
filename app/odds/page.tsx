@@ -1,6 +1,9 @@
 import { getOdds } from '@/lib/odds-api';
 import { computeBestLines } from '@/lib/best-lines';
 import OddsTable from '@/components/OddsTable';
+import NHLTickerTape from '@/components/NHLTickerTape';
+import StandingsWidget from '@/components/StandingsWidget';
+import LiveHeadlines from '@/components/LiveHeadlines';
 
 export const revalidate = 300;
 
@@ -9,7 +12,7 @@ export default async function OddsPage() {
   let error: string | null = null;
 
   try {
-    const oddsGames = await getOdds(['h2h']);
+    const oddsGames = await getOdds(['h2h', 'spreads', 'totals']);
     bestLinesList = computeBestLines(oddsGames);
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load odds';
@@ -17,7 +20,7 @@ export default async function OddsPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Header */}
+      {/* Bold header */}
       <div className="pb-6" style={{ borderBottom: '1px solid #1C1C1C' }}>
         <p
           style={{
@@ -31,7 +34,10 @@ export default async function OddsPage() {
         >
           NHL · Best Lines
         </p>
-        <h1 className="text-4xl font-semibold" style={{ color: '#EDE8E0', letterSpacing: '-0.035em' }}>
+        <h1
+          className="text-4xl"
+          style={{ color: '#EDE8E0', letterSpacing: '-0.035em', fontWeight: 800 }}
+        >
           NHL{' '}
           <span
             style={{
@@ -49,40 +55,55 @@ export default async function OddsPage() {
         </p>
       </div>
 
-      {!process.env.ODDS_API_KEY && (
-        <div
-          className="rounded px-4 py-3 text-sm"
-          style={{
-            background: 'rgba(198,151,63,0.06)',
-            border: '1px solid rgba(198,151,63,0.18)',
-            color: '#8A6B2C',
-          }}
-        >
-          ODDS_API_KEY is not configured. Add it to .env.local to see live odds.
-        </div>
-      )}
+      {/* Tonight's NHL games ticker */}
+      <NHLTickerTape />
 
-      {error && (
-        <div
-          className="rounded px-4 py-3 text-sm"
-          style={{
-            background: 'rgba(192,64,64,0.08)',
-            border: '1px solid rgba(192,64,64,0.2)',
-            color: '#C04040',
-          }}
-        >
-          {error}
-        </div>
-      )}
+      {/* Two-column layout: odds table + sidebar widgets */}
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_minmax(0,20rem)] gap-6 items-start">
+        {/* Left column: odds table */}
+        <div className="space-y-4 min-w-0">
+          {!process.env.ODDS_API_KEY && (
+            <div
+              className="rounded px-4 py-3 text-sm"
+              style={{
+                background: 'rgba(198,151,63,0.06)',
+                border: '1px solid rgba(198,151,63,0.18)',
+                color: '#8A6B2C',
+              }}
+            >
+              ODDS_API_KEY is not configured. Add it to .env.local to see live odds.
+            </div>
+          )}
 
-      <div className="rounded overflow-hidden" style={{ background: '#121212', border: '1px solid #242424' }}>
-        <OddsTable bestLinesList={bestLinesList} />
+          {error && (
+            <div
+              className="rounded px-4 py-3 text-sm"
+              style={{
+                background: 'rgba(192,64,64,0.08)',
+                border: '1px solid rgba(192,64,64,0.2)',
+                color: '#C04040',
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          <div className="rounded overflow-hidden" style={{ background: '#121212', border: '1px solid #242424' }}>
+            <OddsTable bestLinesList={bestLinesList} />
+          </div>
+
+          <p className="text-xs" style={{ color: '#2E2E2E', letterSpacing: '0.04em' }}>
+            Lines sourced from The Odds API. Best price shown for each side across all available bookmakers.
+            Refresh rate: every 5 minutes.
+          </p>
+        </div>
+
+        {/* Right column: standings widget + live headlines */}
+        <div className="space-y-4">
+          <StandingsWidget />
+          <LiveHeadlines />
+        </div>
       </div>
-
-      <p className="text-xs" style={{ color: '#2E2E2E', letterSpacing: '0.04em' }}>
-        Lines sourced from The Odds API. Best moneyline price shown for each side across all available bookmakers. Refresh
-        rate: every 5 minutes.
-      </p>
     </div>
   );
 }
