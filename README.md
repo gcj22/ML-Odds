@@ -1,6 +1,6 @@
 # MLOdds — NHL Betting Intelligence
 
-A modern NHL-focused betting intelligence platform built with Next.js 14, TypeScript, and Tailwind CSS.
+A modern NHL-focused betting intelligence platform built with Next.js 15, TypeScript, and Tailwind CSS.
 
 ## Features
 
@@ -12,7 +12,7 @@ A modern NHL-focused betting intelligence platform built with Next.js 14, TypeSc
 
 ## Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS (black & gold theme)
 - **Data**: NHL.com public API + The Odds API
@@ -36,6 +36,9 @@ cp .env.example .env.local
 Edit `.env.local` and add your API keys:
 
 - `ODDS_API_KEY` — Get from [the-odds-api.com](https://the-odds-api.com)
+- `ODDS_API_REGION` — Bookmaker region (default: `us`)
+- `ODDS_API_SPORT` — Sport key (default: `icehockey_nhl`)
+- `ODDS_CACHE_TTL` — Seconds to cache odds responses (default: `300`)
 - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — Optional, for Redis caching
 
 ### 3. Run the development server
