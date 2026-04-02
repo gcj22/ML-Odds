@@ -72,9 +72,7 @@ function GameChip({ game }: { game: NHLGame }) {
             letterSpacing: '0.02em',
           }}
         >
-          {live
-            ? `${game.awayTeam.score ?? 0}–${game.homeTeam.score ?? 0}`
-            : `${game.awayTeam.score ?? 0}–${game.homeTeam.score ?? 0}`}
+          {game.awayTeam.score ?? 0}–{game.homeTeam.score ?? 0}
         </span>
       )}
 
