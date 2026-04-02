@@ -2,24 +2,373 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Design tokens ───────────────────────────────────────────── */
 :root {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
-  --gold: #FFD700;
-  --gold-dark: #B8860B;
-  --card-bg: #111111;
-  --border: #222222;
+  --background:        #0C0C0C;
+  --surface:           #121212;
+  --surface-elevated:  #181818;
+  --surface-hover:     #1E1E1E;
+
+  --border:            #242424;
+  --border-subtle:     #1C1C1C;
+  --border-strong:     #2E2E2E;
+
+  --gold:              #C6973F;
+  --gold-light:        #DEB96A;
+  --gold-muted:        #8A6B2C;
+  --gold-glow:         rgba(198,151,63,0.15);
+
+  --ink:               #EDE8E0;
+  --ink-secondary:     #8A8278;
+  --ink-muted:         #524D47;
+
+  --live:              #C04040;
+  --live-bg:           rgba(192,64,64,0.12);
+
+  --radius:            0.25rem;
+  --transition:        200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-luxury: 300ms cubic-bezier(0.25, 0, 0, 1);
+
+  /* Font stacks – overridden by Next.js font variables when loaded */
+  --font-sans:  'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, ui-serif, serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+/* ─── Base reset / typography ─────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background-color: var(--background);
-  color: var(--foreground);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  min-height: 100dvh;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+/* Headings — editorial serif weight feel even in sans */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
 }
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Scrollbar styling ───────────────────────────────────────── */
+::-webkit-scrollbar          { width: 6px; height: 6px; }
+::-webkit-scrollbar-track    { background: var(--surface); }
+::-webkit-scrollbar-thumb    { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-muted); }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Focus rings – visible but refined ──────────────────────── */
+:focus-visible {
+  outline: 1.5px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+/* ─── Selection ───────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(198,151,63,0.25);
+  color: var(--ink);
+}
+
+/* ─── Utility: gold text gradient ────────────────────────────── */
+.text-gold-gradient {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Utility: hairline divider ──────────────────────────────── */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-muted) 50%, transparent);
+  border: none;
+}
+
+/* ─── Skeleton loading ────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 0%,
+    var(--surface-elevated) 40%,
+    var(--surface) 80%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* ─── Odds chip ───────────────────────────────────────────────── */
+.odds-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  background: rgba(198,151,63,0.08);
+  border: 1px solid rgba(198,151,63,0.2);
+  border-radius: var(--radius);
+  padding: 0.25rem 0.625rem;
+  transition: background var(--transition), border-color var(--transition);
+  cursor: pointer;
+}
+.odds-chip:hover {
+  background: rgba(198,151,63,0.15);
+  border-color: rgba(198,151,63,0.4);
+}
+.odds-chip.selected {
+  background: rgba(198,151,63,0.2);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(198,151,63,0.2);
+}
+
+/* ─── Card primitive ──────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.card:hover {
+  border-color: var(--border-strong);
+}
+.card-interactive {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  cursor: pointer;
+}
+.card-interactive:hover {
+  border-color: rgba(198,151,63,0.35);
+  background: var(--surface-hover);
+  box-shadow: 0 0 20px rgba(198,151,63,0.06);
+}
+
+/* ─── Label / caption utility ────────────────────────────────── */
+.label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* ─── Status badge ────────────────────────────────────────────── */
+.badge-live {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--live);
+  background: var(--live-bg);
+  border: 1px solid rgba(192,64,64,0.25);
+  border-radius: var(--radius);
+  padding: 0.1875rem 0.5rem;
+}
+.badge-final {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  background: rgba(74,74,74,0.15);
+  border: 1px solid #2E2E2E;
+  border-radius: var(--radius);
+  padding: 0.1875rem 0.5rem;
+}
+.badge-scheduled {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-muted);
+  background: rgba(198,151,63,0.06);
+  border: 1px solid rgba(198,151,63,0.18);
+  border-radius: var(--radius);
+  padding: 0.1875rem 0.5rem;
+}
+
+/* ─── Button primitives ───────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius);
+  padding: 0.4375rem 1rem;
+  transition: background var(--transition), border-color var(--transition),
+    box-shadow var(--transition), color var(--transition);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.btn:focus-visible {
+  outline: 1.5px solid var(--gold);
+  outline-offset: 3px;
+}
+.btn-gold {
+  background: var(--gold);
+  color: var(--ink-inverse);
+  border-color: var(--gold);
+}
+.btn-gold:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.btn-outline:hover {
+  border-color: rgba(198,151,63,0.4);
+  color: var(--gold-light);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-secondary);
+  border-color: transparent;
+}
+.btn-ghost:hover {
+  background: var(--surface-hover);
+  color: var(--ink);
+}
+
+/* ─── Navigation primitives (server-safe CSS hover) ──────────── */
+.luxury-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid #1C1C1C;
+  background: rgba(12,12,12,0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(198,151,63,0.06);
+}
+
+.luxury-nav-sep {
+  width: 1px;
+  height: 1.25rem;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.07);
+}
+
+.luxury-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background: #C6973F;
+  box-shadow: 0 0 6px rgba(198,151,63,0.6);
+  flex-shrink: 0;
+}
+
+.luxury-season-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8A6B2C;
+}
+
+.luxury-wordmark-accent {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #C6973F 0%, #DEB96A 50%, #C6973F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.luxury-wordmark-base {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #EDE8E0;
+}
+
+.luxury-nav-link {
+  display: inline-block;
+  padding: 0.3125rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #8A8278;
+  border-radius: 0.25rem;
+  transition: color 200ms cubic-bezier(0.4,0,0.2,1),
+              background 200ms cubic-bezier(0.4,0,0.2,1);
+  white-space: nowrap;
+}
+.luxury-nav-link:hover {
+  color: #DEB96A;
+  background: rgba(198,151,63,0.06);
+}
+
+.luxury-footer {
+  margin-top: 4rem;
+  border-top: 1px solid #1C1C1C;
+}
+
+.luxury-footer-text {
+  font-size: 0.6875rem;
+  color: #524D47;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Interactive table rows (server-safe CSS hover) ──────────── */
+.luxury-row {
+  transition: background 200ms;
+}
+.luxury-row:hover {
+  background: #181818;
+}
+
+/* ─── Interactive top-edge item (server-safe CSS hover) ───────── */
+.luxury-edge-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  transition: background 200ms;
+  cursor: pointer;
+}
+.luxury-edge-item:hover {
+  background: #181818;
+}
+
+.luxury-game-link:hover p {
+  color: #DEB96A;
+}
+
+/* ─── Respect reduced motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

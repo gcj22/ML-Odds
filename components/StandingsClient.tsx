@@ -12,17 +12,17 @@ interface StandingsTableProps {
 }
 
 const COLUMNS: { key: SortKey; label: string; title: string }[] = [
-  { key: 'gamesPlayed', label: 'GP', title: 'Games Played' },
-  { key: 'wins', label: 'W', title: 'Wins' },
-  { key: 'losses', label: 'L', title: 'Losses' },
-  { key: 'otLosses', label: 'OTL', title: 'Overtime Losses' },
-  { key: 'points', label: 'PTS', title: 'Points' },
-  { key: 'pointPctg', label: 'P%', title: 'Points Percentage' },
-  { key: 'regulationWins', label: 'RW', title: 'Regulation Wins' },
-  { key: 'regulationPlusOtWins', label: 'ROW', title: 'Regulation + OT Wins' },
-  { key: 'goalFor', label: 'GF', title: 'Goals For' },
-  { key: 'goalAgainst', label: 'GA', title: 'Goals Against' },
-  { key: 'goalDiff', label: 'DIFF', title: 'Goal Differential' },
+  { key: 'gamesPlayed',         label: 'GP',   title: 'Games Played' },
+  { key: 'wins',                label: 'W',    title: 'Wins' },
+  { key: 'losses',              label: 'L',    title: 'Losses' },
+  { key: 'otLosses',            label: 'OTL',  title: 'Overtime Losses' },
+  { key: 'points',              label: 'PTS',  title: 'Points' },
+  { key: 'pointPctg',           label: 'P%',   title: 'Points Percentage' },
+  { key: 'regulationWins',      label: 'RW',   title: 'Regulation Wins' },
+  { key: 'regulationPlusOtWins',label: 'ROW',  title: 'Regulation + OT Wins' },
+  { key: 'goalFor',             label: 'GF',   title: 'Goals For' },
+  { key: 'goalAgainst',         label: 'GA',   title: 'Goals Against' },
+  { key: 'goalDiff',            label: 'DIFF', title: 'Goal Differential' },
 ];
 
 function getVal(team: NHLStandingsTeam, key: SortKey): number {
@@ -35,45 +35,69 @@ function StandingsTable({ teams }: StandingsTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>('points');
   const [sortAsc, setSortAsc] = useState(false);
 
-  const sorted = useMemo(() => {
-    return [...teams].sort((a, b) => {
-      const diff = getVal(a, sortKey) - getVal(b, sortKey);
-      return sortAsc ? diff : -diff;
-    });
-  }, [teams, sortKey, sortAsc]);
+  const sorted = useMemo(
+    () =>
+      [...teams].sort((a, b) => {
+        const diff = getVal(a, sortKey) - getVal(b, sortKey);
+        return sortAsc ? diff : -diff;
+      }),
+    [teams, sortKey, sortAsc]
+  );
 
   const handleSort = (key: SortKey) => {
-    if (sortKey === key) {
-      setSortAsc((a) => !a);
-    } else {
-      setSortKey(key);
-      setSortAsc(false);
-    }
+    if (sortKey === key) setSortAsc((a) => !a);
+    else { setSortKey(key); setSortAsc(false); }
+  };
+
+  const thStyle: React.CSSProperties = {
+    padding: '0.625rem 0.75rem',
+    fontSize: '0.5625rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    color: '#524D47',
+    cursor: 'pointer',
+    userSelect: 'none',
+    textAlign: 'center',
+    transition: 'color 200ms',
+    whiteSpace: 'nowrap',
   };
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-border">
-      <table className="w-full text-sm">
+    <div
+      className="overflow-x-auto rounded"
+      style={{ border: '1px solid #242424' }}
+    >
+      <table className="w-full" style={{ borderCollapse: 'collapse' }}>
         <thead>
-          <tr className="bg-card border-b border-border">
-            <th className="px-4 py-3 text-left text-gray-400 font-semibold w-8">#</th>
-            <th className="px-4 py-3 text-left text-gray-400 font-semibold min-w-[180px]">Team</th>
+          <tr style={{ borderBottom: '1px solid #1C1C1C', background: '#121212' }}>
+            <th style={{ ...thStyle, textAlign: 'center', width: '2.5rem' }}>#</th>
+            <th style={{ ...thStyle, textAlign: 'left', minWidth: '180px' }}>Team</th>
             {COLUMNS.map((col) => (
               <th
                 key={col.key}
                 title={col.title}
                 onClick={() => handleSort(col.key)}
-                className={`px-3 py-3 text-center font-semibold cursor-pointer select-none hover:text-yellow-400 transition-colors ${
-                  sortKey === col.key ? 'text-yellow-400' : 'text-gray-400'
-                }`}
+                style={{
+                  ...thStyle,
+                  color: sortKey === col.key ? '#C6973F' : '#524D47',
+                }}
+                onMouseEnter={(e) => {
+                  if (sortKey !== col.key)
+                    (e.currentTarget as HTMLElement).style.color = '#8A8278';
+                }}
+                onMouseLeave={(e) => {
+                  if (sortKey !== col.key)
+                    (e.currentTarget as HTMLElement).style.color = '#524D47';
+                }}
               >
                 {col.label}
                 {sortKey === col.key && (
-                  <span className="ml-1">{sortAsc ? '↑' : '↓'}</span>
+                  <span style={{ marginLeft: '0.25rem' }}>{sortAsc ? '↑' : '↓'}</span>
                 )}
               </th>
             ))}
-            <th className="px-4 py-3 text-center text-gray-400 font-semibold">STK</th>
+            <th style={{ ...thStyle }}>STK</th>
           </tr>
         </thead>
         <tbody>
@@ -83,65 +107,94 @@ function StandingsTable({ teams }: StandingsTableProps) {
             return (
               <tr
                 key={team.teamAbbrev.default}
-                className="border-b border-border/50 hover:bg-white/[0.02] transition-colors"
+                style={{
+                  borderBottom: i < sorted.length - 1 ? '1px solid #1C1C1C' : 'none',
+                  transition: 'background 200ms',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = '#181818';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                }}
               >
-                <td className="px-4 py-3 text-gray-500 text-center">{i + 1}</td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-3">
+                <td style={{ padding: '0.625rem 0.75rem', textAlign: 'center',
+                  fontSize: '0.75rem', color: '#524D47' }}>
+                  {i + 1}
+                </td>
+                <td style={{ padding: '0.625rem 0.875rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
                     {team.teamLogo && (
                       <Image
                         src={team.teamLogo}
                         alt={team.teamAbbrev.default}
-                        width={28}
-                        height={28}
-                        className="object-contain shrink-0"
+                        width={26}
+                        height={26}
+                        className="object-contain shrink-0 opacity-90"
                         unoptimized
                       />
                     )}
                     <div>
-                      <div className="font-semibold text-white">
+                      <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#EDE8E0',
+                        letterSpacing: '-0.01em' }}>
                         {team.teamName.default}
-                      </div>
-                      <div className="text-xs text-gray-500">{team.divisionName}</div>
+                      </p>
+                      <p style={{ fontSize: '0.5625rem', color: '#524D47', letterSpacing: '0.04em' }}>
+                        {team.divisionName}
+                      </p>
                     </div>
                   </div>
                 </td>
                 {COLUMNS.map((col) => {
                   const val = getVal(team, col.key);
-                  let display: string = col.key === 'pointPctg' ? val.toFixed(3) : String(val);
+                  let display: string =
+                    col.key === 'pointPctg' ? val.toFixed(3) : String(val);
                   if (col.key === 'goalDiff') display = diff >= 0 ? `+${diff}` : String(diff);
                   return (
                     <td
                       key={col.key}
-                      className={`px-3 py-3 text-center font-mono ${
-                        col.key === 'points'
-                          ? 'text-yellow-400 font-bold'
-                          : col.key === 'goalDiff'
-                          ? diff > 0
-                            ? 'text-green-400'
-                            : diff < 0
-                            ? 'text-red-400'
-                            : 'text-gray-400'
-                          : 'text-gray-200'
-                      }`}
+                      style={{
+                        padding: '0.625rem 0.75rem',
+                        textAlign: 'center',
+                        fontFamily: 'var(--font-mono, monospace)',
+                        fontSize: '0.8125rem',
+                        fontWeight: col.key === 'points' ? 700 : 500,
+                        color:
+                          col.key === 'points'
+                            ? '#C6973F'
+                            : col.key === 'goalDiff'
+                            ? diff > 0
+                              ? '#4A9B6F'
+                              : diff < 0
+                              ? '#C04040'
+                              : '#524D47'
+                            : '#8A8278',
+                        letterSpacing: '0.02em',
+                      }}
                     >
                       {display}
                     </td>
                   );
                 })}
-                <td className="px-4 py-3 text-center">
+                <td style={{ padding: '0.625rem 0.75rem', textAlign: 'center' }}>
                   {team.streakCode && team.streakCount ? (
                     <span
-                      className={`text-xs font-bold px-1.5 py-0.5 rounded ${
-                        isWinStreak
-                          ? 'bg-green-500/20 text-green-400'
-                          : 'bg-red-500/20 text-red-400'
-                      }`}
+                      style={{
+                        display: 'inline-block',
+                        fontSize: '0.625rem',
+                        fontWeight: 700,
+                        padding: '0.125rem 0.375rem',
+                        borderRadius: '0.1875rem',
+                        letterSpacing: '0.04em',
+                        background: isWinStreak ? 'rgba(74,155,111,0.12)' : 'rgba(192,64,64,0.12)',
+                        border: isWinStreak ? '1px solid rgba(74,155,111,0.2)' : '1px solid rgba(192,64,64,0.2)',
+                        color: isWinStreak ? '#4A9B6F' : '#C04040',
+                      }}
                     >
                       {team.streakCode}{team.streakCount}
                     </span>
                   ) : (
-                    <span className="text-gray-600">—</span>
+                    <span style={{ color: '#242424' }}>—</span>
                   )}
                 </td>
               </tr>
@@ -162,7 +215,6 @@ export default function StandingsClient({ standings }: { standings: NHLStandings
     return standings;
   }, [standings, tab]);
 
-  // Group by division when showing a conference
   const divisions = useMemo(() => {
     if (tab === 'league') return null;
     const map = new Map<string, NHLStandingsTeam[]>();
@@ -176,36 +228,50 @@ export default function StandingsClient({ standings }: { standings: NHLStandings
 
   return (
     <div className="space-y-6">
-      {/* Tabs */}
-      <div className="flex gap-2 border-b border-border">
+      {/* Tab bar */}
+      <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #1C1C1C' }}>
         {([
-          { id: 'league', label: 'League' },
-          { id: 'eastern', label: 'Eastern Conference' },
-          { id: 'western', label: 'Western Conference' },
+          { id: 'league',   label: 'League' },
+          { id: 'eastern',  label: 'Eastern' },
+          { id: 'western',  label: 'Western' },
         ] as { id: Tab; label: string }[]).map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setTab(id)}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-              tab === id
-                ? 'border-yellow-400 text-yellow-400'
-                : 'border-transparent text-gray-400 hover:text-white'
-            }`}
+            style={{
+              padding: '0.5rem 1rem',
+              fontSize: '0.8125rem',
+              fontWeight: 500,
+              letterSpacing: '0.01em',
+              color: tab === id ? '#C6973F' : '#524D47',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: tab === id ? '1.5px solid #C6973F' : '1.5px solid transparent',
+              cursor: 'pointer',
+              transition: 'color 200ms, border-color 200ms',
+              marginBottom: '-1px',
+            }}
+            onMouseEnter={(e) => {
+              if (tab !== id) (e.currentTarget as HTMLButtonElement).style.color = '#8A8278';
+            }}
+            onMouseLeave={(e) => {
+              if (tab !== id) (e.currentTarget as HTMLButtonElement).style.color = '#524D47';
+            }}
           >
             {label}
           </button>
         ))}
       </div>
 
-      {/* Content */}
       {tab === 'league' && <StandingsTable teams={filtered} />}
 
       {divisions &&
         Array.from(divisions.entries()).map(([divName, teams]) => (
           <section key={divName}>
-            <h3 className="text-sm font-semibold text-yellow-400 uppercase tracking-widest mb-3">
+            <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: '#C6973F', marginBottom: '0.75rem' }}>
               {divName} Division
-            </h3>
+            </p>
             <StandingsTable teams={teams} />
           </section>
         ))}

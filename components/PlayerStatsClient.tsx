@@ -49,12 +49,12 @@ function Th({
   const active = colKey === sortKey;
   return (
     <th
-      className="px-3 py-3 text-center cursor-pointer select-none whitespace-nowrap hover:text-white transition-colors"
+      className="px-3 py-3 text-center cursor-pointer select-none whitespace-nowrap hover:text-[#EDE8E0] transition-colors"
       onClick={() => onClick(colKey)}
     >
       {label}
       {active && (
-        <span className="ml-1 text-[rgb(var(--accent))]">
+        <span className="ml-1 text-[#C6973F]">
           {sortDir === 'desc' ? '▼' : '▲'}
         </span>
       )}
@@ -66,14 +66,14 @@ function SkatersTable({ skaters }: { skaters: NHLSkaterStat[] }) {
   const { sorted, sortKey, sortDir, toggleSort } = useSortedRows(skaters, 'points');
 
   return (
-    <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
-      <div className="px-4 py-3 border-b border-[rgb(var(--border))]">
+    <div className="rounded overflow-hidden">
+      <div className="px-4 py-3 border-b border-[#1C1C1C]">
         <span className="text-sm font-semibold">Skaters</span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-[rgb(var(--card))] text-[rgb(var(--muted))]">
-            <tr className="border-b border-[rgb(var(--border))]">
+          <thead className="sticky top-0 bg-[#121212]">
+            <tr className="border-b border-[#1C1C1C]">
               <th className="px-4 py-3 text-left whitespace-nowrap">Player</th>
               <th className="px-3 py-3 text-center whitespace-nowrap">Team</th>
               <th className="px-3 py-3 text-center whitespace-nowrap">Pos</th>
@@ -105,7 +105,7 @@ function SkatersTable({ skaters }: { skaters: NHLSkaterStat[] }) {
           </thead>
           <tbody className="[&>tr:nth-child(even)]:bg-white/[0.02]">
             {sorted.map((s) => (
-              <tr key={s.playerId} className="border-b border-[rgb(var(--border))]/60">
+              <tr key={s.playerId} className="border-b border-[#1C1C1C]/60">
                 <td className="px-4 py-3 font-medium whitespace-nowrap">
                   {s.firstName.default} {s.lastName.default}
                 </td>
@@ -114,7 +114,7 @@ function SkatersTable({ skaters }: { skaters: NHLSkaterStat[] }) {
                 <td className="px-3 py-3 text-center font-mono text-xs">{s.gamesPlayed}</td>
                 <td className="px-3 py-3 text-center font-mono text-xs">{s.goals}</td>
                 <td className="px-3 py-3 text-center font-mono text-xs">{s.assists}</td>
-                <td className="px-3 py-3 text-center font-mono text-xs text-[rgb(var(--accent))] font-bold">
+                <td className="px-3 py-3 text-center font-mono text-xs text-[#C6973F] font-bold">
                   {s.points}
                 </td>
                 <td className="px-3 py-3 text-center font-mono text-xs">
@@ -141,14 +141,14 @@ function GoaliesTable({ goalies }: { goalies: NHLGoalieStatEntry[] }) {
   const { sorted, sortKey, sortDir, toggleSort } = useSortedRows(goalies, 'wins');
 
   return (
-    <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
-      <div className="px-4 py-3 border-b border-[rgb(var(--border))]">
+    <div className="rounded overflow-hidden">
+      <div className="px-4 py-3 border-b border-[#1C1C1C]">
         <span className="text-sm font-semibold">Goalies</span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-[rgb(var(--card))] text-[rgb(var(--muted))]">
-            <tr className="border-b border-[rgb(var(--border))]">
+          <thead className="sticky top-0 bg-[#121212]">
+            <tr className="border-b border-[#1C1C1C]">
               <th className="px-4 py-3 text-left whitespace-nowrap">Player</th>
               <th className="px-3 py-3 text-center whitespace-nowrap">Team</th>
               {(
@@ -179,14 +179,14 @@ function GoaliesTable({ goalies }: { goalies: NHLGoalieStatEntry[] }) {
           </thead>
           <tbody className="[&>tr:nth-child(even)]:bg-white/[0.02]">
             {sorted.map((g) => (
-              <tr key={g.playerId} className="border-b border-[rgb(var(--border))]/60">
+              <tr key={g.playerId} className="border-b border-[#1C1C1C]/60">
                 <td className="px-4 py-3 font-medium whitespace-nowrap">
                   {g.firstName.default} {g.lastName.default}
                 </td>
                 <td className="px-3 py-3 text-center font-mono text-xs">{g.teamAbbrev}</td>
                 <td className="px-3 py-3 text-center font-mono text-xs">{g.gamesPlayed}</td>
                 <td className="px-3 py-3 text-center font-mono text-xs">{g.gamesStarted}</td>
-                <td className="px-3 py-3 text-center font-mono text-xs text-[rgb(var(--accent))] font-bold">
+                <td className="px-3 py-3 text-center font-mono text-xs text-[#C6973F] font-bold">
                   {g.wins}
                 </td>
                 <td className="px-3 py-3 text-center font-mono text-xs">{g.losses}</td>

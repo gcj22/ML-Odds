@@ -18,25 +18,66 @@ export default function DatePicker({
 
   const fmt = (d: Date) => d.toISOString().split('T')[0];
 
+  const navBtnStyle: React.CSSProperties = {
+    padding: '0.375rem 0.75rem',
+    fontSize: '0.8125rem',
+    fontWeight: 500,
+    color: '#8A8278',
+    background: '#121212',
+    border: '1px solid #242424',
+    borderRadius: '0.25rem',
+    cursor: 'pointer',
+    transition: 'border-color 200ms, color 200ms',
+  };
+
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
       <button
         onClick={() => router.push(`${basePath}?date=${fmt(prevDate)}`)}
-        className="px-3 py-1.5 bg-card border border-border rounded hover:border-yellow-500/40 transition-colors text-sm"
+        style={navBtnStyle}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLButtonElement;
+          el.style.borderColor = 'rgba(198,151,63,0.35)';
+          el.style.color = '#DEB96A';
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLButtonElement;
+          el.style.borderColor = '#242424';
+          el.style.color = '#8A8278';
+        }}
+        aria-label="Previous day"
       >
-        ← Prev
+        ←
       </button>
       <input
         type="date"
         value={currentDate}
         onChange={(e) => router.push(`${basePath}?date=${e.target.value}`)}
-        className="bg-card border border-border rounded px-3 py-1.5 text-sm text-white [color-scheme:dark]"
+        style={{
+          ...navBtnStyle,
+          colorScheme: 'dark',
+          color: '#EDE8E0',
+          fontFamily: 'inherit',
+          padding: '0.375rem 0.75rem',
+        }}
+        aria-label="Select date"
       />
       <button
         onClick={() => router.push(`${basePath}?date=${fmt(nextDate)}`)}
-        className="px-3 py-1.5 bg-card border border-border rounded hover:border-yellow-500/40 transition-colors text-sm"
+        style={navBtnStyle}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLButtonElement;
+          el.style.borderColor = 'rgba(198,151,63,0.35)';
+          el.style.color = '#DEB96A';
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLButtonElement;
+          el.style.borderColor = '#242424';
+          el.style.color = '#8A8278';
+        }}
+        aria-label="Next day"
       >
-        Next →
+        →
       </button>
     </div>
   );

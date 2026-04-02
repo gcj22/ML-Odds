@@ -9,95 +9,153 @@ export default function PredictionsPanel({
   homeAbbrev: string;
   awayAbbrev: string;
 }) {
-  if (!prediction) {
-    return (
-      <div className="bg-card border border-border rounded-lg p-4">
-        <h3 className="text-lg font-bold mb-3">Predictions</h3>
-        <p className="text-gray-500 text-sm">No prediction data available.</p>
-      </div>
-    );
-  }
-
-  const homeProb = (prediction.home_win_prob * 100).toFixed(1);
-  const awayProb = (prediction.away_win_prob * 100).toFixed(1);
-
   return (
-    <div className="bg-card border border-border rounded-lg p-4">
-      <h3 className="text-lg font-bold mb-3">🤖 Predictions</h3>
+    <div
+      className="rounded"
+      style={{ background: '#121212', border: '1px solid #242424', overflow: 'hidden' }}
+    >
+      {/* Header */}
+      <div
+        className="px-4 py-3 flex items-center gap-2"
+        style={{ borderBottom: '1px solid #1C1C1C' }}
+      >
+        <h3 style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
+          textTransform: 'uppercase', color: '#C6973F' }}>
+          Model Predictions
+        </h3>
+      </div>
 
-      {/* Win Probability */}
-      <div className="mb-4">
-        <div className="text-xs text-gray-500 mb-2 uppercase tracking-wide">Win Probability</div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm w-8 text-right">{awayProb}%</span>
-          <div className="flex-1 bg-border rounded-full h-3 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"
-              style={{ width: `${homeProb}%`, marginLeft: `${awayProb}%` }}
+      {!prediction ? (
+        <div className="px-4 py-6 text-center">
+          <p style={{ fontSize: '0.8125rem', color: '#524D47' }}>No prediction data available.</p>
+        </div>
+      ) : (
+        <div className="p-4 space-y-5">
+          {/* Win probability bar */}
+          <div>
+            <p style={{ fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: '#524D47', marginBottom: '0.625rem' }}>
+              Win Probability
+            </p>
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#8A8278',
+                minWidth: '2.5rem', textAlign: 'right' }}>
+                {(prediction.away_win_prob * 100).toFixed(0)}%
+              </span>
+              <div
+                className="flex-1 rounded-full overflow-hidden"
+                style={{ height: '6px', background: '#1C1C1C' }}
+              >
+                <div
+                  style={{
+                    height: '100%',
+                    width: `${prediction.home_win_prob * 100}%`,
+                    marginLeft: `${prediction.away_win_prob * 100}%`,
+                    background: 'linear-gradient(90deg, #8A6B2C, #C6973F)',
+                    borderRadius: '3px',
+                    transition: 'width 600ms cubic-bezier(0.25, 0, 0, 1)',
+                  }}
+                />
+              </div>
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#8A8278',
+                minWidth: '2.5rem' }}>
+                {(prediction.home_win_prob * 100).toFixed(0)}%
+              </span>
+            </div>
+            <div className="flex justify-between mt-1.5">
+              <span style={{ fontSize: '0.5625rem', color: '#524D47', letterSpacing: '0.06em',
+                textTransform: 'uppercase' }}>{awayAbbrev}</span>
+              <span style={{ fontSize: '0.5625rem', color: '#524D47', letterSpacing: '0.06em',
+                textTransform: 'uppercase' }}>{homeAbbrev}</span>
+            </div>
+          </div>
+
+          {/* Projection numbers */}
+          <div className="grid grid-cols-2 gap-2">
+            <StatBox
+              value={prediction.projected_total_goals.toFixed(1)}
+              label="Proj. Total"
+            />
+            <StatBox
+              value={`${prediction.projected_goal_diff > 0 ? '+' : ''}${prediction.projected_goal_diff.toFixed(2)}`}
+              label={`Goal Diff (${homeAbbrev})`}
             />
           </div>
-          <span className="text-sm w-8">{homeProb}%</span>
-        </div>
-        <div className="flex justify-between text-xs text-gray-400 mt-1">
-          <span>{awayAbbrev}</span>
-          <span>{homeAbbrev}</span>
-        </div>
-      </div>
 
-      {/* Projections */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-background border border-border rounded p-3 text-center">
-          <div className="text-2xl font-bold text-yellow-400">
-            {prediction.projected_total_goals.toFixed(1)}
-          </div>
-          <div className="text-xs text-gray-400 mt-1">Projected Total</div>
-        </div>
-        <div className="bg-background border border-border rounded p-3 text-center">
-          <div className="text-2xl font-bold text-yellow-400">
-            {prediction.projected_goal_diff > 0 ? '+' : ''}
-            {prediction.projected_goal_diff.toFixed(2)}
-          </div>
-          <div className="text-xs text-gray-400 mt-1">Goal Diff ({homeAbbrev})</div>
-        </div>
-      </div>
+          {/* Leans */}
+          {(prediction.puck_line_lean || prediction.total_lean) && (
+            <div>
+              <p style={{ fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.1em',
+                textTransform: 'uppercase', color: '#524D47', marginBottom: '0.5rem' }}>
+                Model Leans
+              </p>
+              <div className="space-y-2">
+                {prediction.puck_line_lean && (
+                  <div
+                    className="flex items-center justify-between rounded px-3 py-2"
+                    style={{
+                      background: 'rgba(198,151,63,0.06)',
+                      border: '1px solid rgba(198,151,63,0.15)',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.8125rem', color: '#EDE8E0' }}>
+                      Puck Line:{' '}
+                      <span style={{ fontWeight: 600, color: '#C6973F' }}>
+                        {prediction.puck_line_lean.side === 'home' ? homeAbbrev : awayAbbrev} -1.5
+                      </span>
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.75rem',
+                      color: '#8A6B2C', fontWeight: 600 }}>
+                      +{prediction.puck_line_lean.edge.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                {prediction.total_lean && (
+                  <div
+                    className="flex items-center justify-between rounded px-3 py-2"
+                    style={{
+                      background: 'rgba(74,155,111,0.06)',
+                      border: '1px solid rgba(74,155,111,0.15)',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.8125rem', color: '#EDE8E0' }}>
+                      Total:{' '}
+                      <span style={{ fontWeight: 600, color: '#4A9B6F' }}>
+                        {prediction.total_lean.side.toUpperCase()}
+                      </span>
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.75rem',
+                      color: '#357A56', fontWeight: 600 }}>
+                      +{prediction.total_lean.edge.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
-      {/* Leans */}
-      {(prediction.puck_line_lean || prediction.total_lean) && (
-        <div>
-          <div className="text-xs text-gray-500 mb-2 uppercase tracking-wide">Model Leans</div>
-          <div className="space-y-2">
-            {prediction.puck_line_lean && (
-              <div className="flex items-center justify-between bg-yellow-500/10 border border-yellow-500/20 rounded px-3 py-2">
-                <span className="text-sm">
-                  Puck Line:{' '}
-                  <span className="font-semibold text-yellow-400">
-                    {prediction.puck_line_lean.side === 'home' ? homeAbbrev : awayAbbrev} -1.5
-                  </span>
-                </span>
-                <span className="text-xs text-yellow-400 font-mono">
-                  +{prediction.puck_line_lean.edge.toFixed(2)} edge
-                </span>
-              </div>
-            )}
-            {prediction.total_lean && (
-              <div className="flex items-center justify-between bg-blue-500/10 border border-blue-500/20 rounded px-3 py-2">
-                <span className="text-sm">
-                  Total:{' '}
-                  <span className="font-semibold text-blue-400">
-                    {prediction.total_lean.side.toUpperCase()}
-                  </span>
-                </span>
-                <span className="text-xs text-blue-400 font-mono">
-                  +{prediction.total_lean.edge.toFixed(2)} edge
-                </span>
-              </div>
-            )}
-          </div>
+          <p style={{ fontSize: '0.5625rem', color: '#2E2E2E', letterSpacing: '0.04em' }}>
+            Predictions based on Elo ratings. For entertainment purposes only.
+          </p>
         </div>
       )}
+    </div>
+  );
+}
 
-      <p className="text-xs text-gray-600 mt-4">
-        * Predictions based on Elo ratings. For entertainment purposes only.
+function StatBox({ value, label }: { value: string; label: string }) {
+  return (
+    <div
+      className="rounded text-center"
+      style={{ background: '#0C0C0C', border: '1px solid #242424', padding: '0.75rem' }}
+    >
+      <p style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '1.375rem', fontWeight: 700,
+        color: '#C6973F', letterSpacing: '-0.02em' }}>
+        {value}
+      </p>
+      <p style={{ fontSize: '0.5625rem', color: '#524D47', marginTop: '0.25rem',
+        letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+        {label}
       </p>
     </div>
   );

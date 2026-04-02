@@ -5,7 +5,10 @@ import Link from 'next/link';
 export default function OddsTable({ bestLinesList }: { bestLinesList: BestLines[] }) {
   if (bestLinesList.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div
+        className="text-center py-12 text-sm"
+        style={{ color: '#524D47' }}
+      >
         No odds available. Set ODDS_API_KEY to see live odds.
       </div>
     );
@@ -13,38 +16,58 @@ export default function OddsTable({ bestLinesList }: { bestLinesList: BestLines[
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full" style={{ borderCollapse: 'collapse' }}>
         <thead>
-          <tr className="border-b border-border text-gray-400">
-            <th className="text-left py-3 px-4">Game</th>
-            <th className="text-center py-3 px-4">ML Away</th>
-            <th className="text-center py-3 px-4">ML Home</th>
-            <th className="text-center py-3 px-4">Puck Line Away</th>
-            <th className="text-center py-3 px-4">Puck Line Home</th>
-            <th className="text-center py-3 px-4">Over</th>
-            <th className="text-center py-3 px-4">Under</th>
+          <tr style={{ borderBottom: '1px solid #1C1C1C' }}>
+            {['Game', 'ML Away', 'ML Home', 'PL Away', 'PL Home', 'Over', 'Under'].map((h, i) => (
+              <th
+                key={h}
+                style={{
+                  padding: '0.75rem 1rem',
+                  textAlign: i === 0 ? 'left' : 'center',
+                  fontSize: '0.5625rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: '#524D47',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {h}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {bestLinesList.map((game) => (
+          {bestLinesList.map((game, rowIdx) => (
             <tr
               key={game.gameId}
-              className="border-b border-border/50 hover:bg-card transition-colors"
+              className="luxury-row"
+              style={{
+                borderBottom: rowIdx < bestLinesList.length - 1 ? '1px solid #1C1C1C' : 'none',
+              }}
             >
-              <td className="py-3 px-4">
+              <td style={{ padding: '0.875rem 1rem' }}>
                 <Link
                   href={`/game/${game.gameId}`}
-                  className="hover:text-yellow-400 transition-colors"
+                  className="luxury-game-link"
+                  style={{ display: 'block' }}
                 >
-                  <div className="font-semibold">{game.awayTeam}</div>
-                  <div className="font-semibold">@ {game.homeTeam}</div>
+                  <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#EDE8E0',
+                    letterSpacing: '-0.01em', transition: 'color 200ms' }}>
+                    {game.awayTeam}
+                  </p>
+                  <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#EDE8E0',
+                    letterSpacing: '-0.01em', marginTop: '0.125rem', transition: 'color 200ms' }}>
+                    @ {game.homeTeam}
+                  </p>
                 </Link>
               </td>
 
               <OddsCell line={game.h2h?.away} />
               <OddsCell line={game.h2h?.home} />
-              <OddsCell line={game.puckLine?.away} />
-              <OddsCell line={game.puckLine?.home} />
+              <OddsCell line={game.puckLine?.away} showPoint />
+              <OddsCell line={game.puckLine?.home} showPoint />
               <OddsCell line={game.totals?.over} showPoint />
               <OddsCell line={game.totals?.under} showPoint />
             </tr>
@@ -63,18 +86,35 @@ function OddsCell({
   showPoint?: boolean;
 }) {
   if (!line) {
-    return <td className="py-3 px-4 text-center text-gray-600">—</td>;
+    return (
+      <td style={{ padding: '0.875rem 1rem', textAlign: 'center', color: '#2E2E2E',
+        fontSize: '0.875rem' }}>
+        —
+      </td>
+    );
   }
 
   return (
-    <td className="py-3 px-4 text-center">
-      <div className="font-mono font-semibold text-yellow-400">
+    <td style={{ padding: '0.875rem 1rem', textAlign: 'center' }}>
+      <div
+        style={{
+          fontFamily: 'var(--font-mono, monospace)',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          color: '#C6973F',
+          letterSpacing: '0.02em',
+        }}
+      >
         {showPoint && line.point !== undefined && (
-          <span className="text-gray-400 mr-1">{line.point}</span>
+          <span style={{ color: '#524D47', fontSize: '0.75rem', marginRight: '0.25rem' }}>
+            {line.point}
+          </span>
         )}
         {formatAmericanOdds(line.price)}
       </div>
-      <div className="text-xs text-gray-500 mt-0.5">{line.bookTitle}</div>
+      <div style={{ fontSize: '0.5625rem', color: '#524D47', marginTop: '0.1875rem' }}>
+        {line.bookTitle}
+      </div>
     </td>
   );
 }

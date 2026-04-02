@@ -39,13 +39,23 @@ export default async function GamePage({ params }: GamePageProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <Link href="/" className="text-gray-400 hover:text-yellow-400 text-sm transition-colors">
+    <div className="space-y-5">
+      <Link
+        href="/"
+        style={{ fontSize: '0.8125rem', color: '#524D47', transition: 'color 200ms',
+          display: 'inline-flex', alignItems: 'center', gap: '0.375rem' }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#C6973F'; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#524D47'; }}
+      >
         ← Back to Today
       </Link>
 
       {error && (
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+        <div
+          className="rounded px-4 py-3 text-sm"
+          style={{ background: 'rgba(192,64,64,0.08)', border: '1px solid rgba(192,64,64,0.2)',
+            color: '#C04040' }}
+        >
           {error}
         </div>
       )}
@@ -55,7 +65,10 @@ export default async function GamePage({ params }: GamePageProps) {
       )}
 
       {!boxscore && !error && (
-        <div className="text-gray-500 py-12 text-center">Game not found.</div>
+        <div className="rounded py-16 text-center text-sm"
+          style={{ color: '#524D47', border: '1px dashed #1C1C1C' }}>
+          Game not found.
+        </div>
       )}
     </div>
   );

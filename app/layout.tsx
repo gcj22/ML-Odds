@@ -3,42 +3,68 @@ import './globals.css';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'MLOdds - NHL Betting Intelligence',
+  title: 'MLOdds — NHL Betting Intelligence',
   description: 'Live NHL scores, odds comparison, and AI-powered predictions for sharp bettors',
 };
+
+const NAV_LINKS = [
+  { href: '/',          label: 'Today' },
+  { href: '/scores',    label: 'Scores' },
+  { href: '/schedule',  label: 'Schedule' },
+  { href: '/standings', label: 'Standings' },
+  { href: '/stats/players', label: 'Players' },
+  { href: '/odds',      label: 'Odds' },
+];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-background text-white min-h-screen font-sans antialiased">
-        <nav className="border-b border-yellow-500/20 bg-black/90 backdrop-blur sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-6">
-            <Link href="/" className="text-xl font-bold text-yellow-400 shrink-0">
-              ML<span className="text-white">Odds</span>
-            </Link>
-            <div className="flex gap-1 text-sm overflow-x-auto">
-              <Link href="/" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Today
+      <body className="min-h-screen antialiased">
+        {/* ── Navigation ─────────────────────────────────────── */}
+        <header className="luxury-nav">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center h-14 gap-8">
+              {/* Wordmark */}
+              <Link href="/" className="shrink-0 flex items-baseline gap-px" aria-label="MLOdds home">
+                <span className="luxury-wordmark-accent">ML</span>
+                <span className="luxury-wordmark-base">Odds</span>
               </Link>
-              <Link href="/scores" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Scores
-              </Link>
-              <Link href="/schedule" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Schedule
-              </Link>
-              <Link href="/standings" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Standings
-              </Link>
-              <Link href="/stats/players" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Player Stats
-              </Link>
-              <Link href="/odds" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Odds
-              </Link>
+
+              {/* Separator */}
+              <div className="hidden sm:block luxury-nav-sep" />
+
+              {/* Nav links */}
+              <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide flex-1">
+                {NAV_LINKS.map(({ href, label }) => (
+                  <Link key={href} href={href} className="luxury-nav-link">
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Right-side season indicator */}
+              <div className="shrink-0 hidden md:flex items-center gap-2">
+                <div className="luxury-dot" />
+                <span className="luxury-season-label">NHL 2024–25</span>
+              </div>
             </div>
           </div>
-        </nav>
-        <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
+        </header>
+
+        {/* ── Page content ───────────────────────────────────── */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+          {children}
+        </main>
+
+        {/* ── Footer ─────────────────────────────────────────── */}
+        <footer className="luxury-footer">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="luxury-footer-text">
+              © {new Date().getFullYear()} MLOdds. For entertainment purposes only. Please gamble responsibly.
+            </p>
+            <p className="luxury-footer-text">Data via NHL API &amp; The Odds API</p>
+          </div>
+        </footer>
       </body>
     </html>
   );
