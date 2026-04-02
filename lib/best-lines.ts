@@ -4,6 +4,8 @@ export function computeBestLines(games: OddsGame[]): BestLines[] {
   return games.map((game) => {
     const result: BestLines = {
       gameId: game.id,
+      sportKey: game.sport_key,
+      sportTitle: game.sport_title,
       homeTeam: game.home_team,
       awayTeam: game.away_team,
       commenceTime: game.commence_time,

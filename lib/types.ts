@@ -115,6 +115,8 @@ export interface BestLine {
 
 export interface BestLines {
   gameId: string;
+  sportKey: string;
+  sportTitle: string;
   homeTeam: string;
   awayTeam: string;
   commenceTime: string;
