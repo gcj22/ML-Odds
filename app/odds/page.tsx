@@ -16,25 +16,22 @@ export default async function OddsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">
-          Upcoming <span className="text-yellow-400">Odds</span>
-        </h1>
-        <p className="text-gray-400 mt-1">Best available moneyline across all books</p>
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
       <div className="pb-6" style={{ borderBottom: '1px solid #1C1C1C' }}>
         <p
-          style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
-            textTransform: 'uppercase', color: '#8A6B2C', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.625rem',
+            fontWeight: 700,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: '#8A6B2C',
+            marginBottom: '0.5rem',
+          }}
         >
           NHL · Best Lines
         </p>
-        <h1
-          className="text-4xl font-semibold"
-          style={{ color: '#EDE8E0', letterSpacing: '-0.035em' }}
-        >
+        <h1 className="text-4xl font-semibold" style={{ color: '#EDE8E0', letterSpacing: '-0.035em' }}>
           NHL{' '}
           <span
             style={{
@@ -78,18 +75,13 @@ export default async function OddsPage() {
         </div>
       )}
 
-      <div
-        className="rounded overflow-hidden"
-        style={{ background: '#121212', border: '1px solid #242424' }}
-      >
+      <div className="rounded overflow-hidden" style={{ background: '#121212', border: '1px solid #242424' }}>
         <OddsTable bestLinesList={bestLinesList} />
       </div>
 
-      <p className="text-xs text-gray-600">
-        Lines sourced from The Odds API. Best moneyline price shown for each side across all available bookmakers.
-        Refresh rate: every 5 minutes.
-      <p style={{ fontSize: '0.625rem', color: '#2E2E2E', letterSpacing: '0.04em' }}>
-        Lines sourced from The Odds API. Best price shown per side across all available bookmakers.
+      <p className="text-xs" style={{ color: '#2E2E2E', letterSpacing: '0.04em' }}>
+        Lines sourced from The Odds API. Best moneyline price shown for each side across all available bookmakers. Refresh
+        rate: every 5 minutes.
       </p>
     </div>
   );
