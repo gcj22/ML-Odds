@@ -18,82 +18,60 @@ export default function GameCenter({ boxscore, bestLines, prediction }: GameCent
   const isFinal = ['FINAL', 'OFF', 'OVER'].includes(boxscore.gameState);
 
   return (
-    <div className="space-y-6">
-      {/* Game Header */}
-      <div className="bg-card border border-border rounded-lg p-6">
-        <div className="flex items-center justify-center gap-8">
-          {/* Away Team */}
-          <div className="flex flex-col items-center gap-2">
-            {awayTeam.logo && (
-              <Image
-                src={awayTeam.logo}
-                alt={awayTeam.abbrev}
-                width={64}
-                height={64}
-                className="object-contain"
-                unoptimized
-              />
-            )}
-            <div className="text-center">
-              <div className="font-bold text-lg">{awayTeam.placeName?.default ?? awayTeam.abbrev}</div>
-              <div className="text-sm text-gray-400">Away</div>
-            </div>
-            {(isLive || isFinal) && (
-              <div className="text-4xl font-bold text-yellow-400">{awayTeam.score ?? 0}</div>
-            )}
-          </div>
+    <div className="space-y-6 animate-fade-in">
+      {/* ── Game header card ───────────────────────────────── */}
+      <div
+        className="rounded"
+        style={{ background: '#121212', border: '1px solid #242424', padding: '2rem 1.5rem' }}
+      >
+        <div className="flex items-center justify-center gap-8 sm:gap-16">
+          {/* Away */}
+          <TeamBlock
+            team={awayTeam}
+            label="Away"
+            score={isLive || isFinal ? awayTeam.score : undefined}
+          />
 
-          {/* Status */}
-          <div className="text-center">
-            <div
-              className={`text-sm font-semibold px-3 py-1 rounded mb-2 ${
-                isLive
-                  ? 'bg-red-500/20 text-red-400'
-                  : isFinal
-                  ? 'bg-gray-700 text-gray-400'
-                  : 'bg-yellow-500/10 text-yellow-400'
-              }`}
-            >
-              {isLive ? '● LIVE' : status}
-            </div>
+          {/* Status center */}
+          <div className="text-center flex flex-col items-center gap-2">
+            {isLive ? (
+              <span className="badge-live flex items-center gap-1.5">
+                <span
+                  className="w-1.5 h-1.5 rounded-full animate-pulse-slow"
+                  style={{ background: '#C04040', display: 'inline-block' }}
+                />
+                Live
+              </span>
+            ) : isFinal ? (
+              <span className="badge-final">Final</span>
+            ) : (
+              <span className="badge-scheduled">{status}</span>
+            )}
+
             {!isFinal && !isLive && boxscore.gameDate && (
-              <div className="text-sm text-gray-500">
+              <p style={{ fontSize: '0.75rem', color: '#524D47' }}>
                 {formatGameTime(boxscore.gameDate + 'T00:00:00Z')}
-              </div>
+              </p>
             )}
             {isLive && boxscore.clock && (
-              <div className="text-sm text-gray-300">
+              <p style={{ fontSize: '0.875rem', color: '#8A8278' }}>
                 P{boxscore.period} · {boxscore.clock.timeRemaining}
-              </div>
+              </p>
             )}
-            <div className="text-gray-600 text-xs mt-1">vs</div>
+            <span style={{ fontSize: '0.6875rem', color: '#2E2E2E' }}>vs</span>
           </div>
 
-          {/* Home Team */}
-          <div className="flex flex-col items-center gap-2">
-            {homeTeam.logo && (
-              <Image
-                src={homeTeam.logo}
-                alt={homeTeam.abbrev}
-                width={64}
-                height={64}
-                className="object-contain"
-                unoptimized
-              />
-            )}
-            <div className="text-center">
-              <div className="font-bold text-lg">{homeTeam.placeName?.default ?? homeTeam.abbrev}</div>
-              <div className="text-sm text-gray-400">Home</div>
-            </div>
-            {(isLive || isFinal) && (
-              <div className="text-4xl font-bold text-yellow-400">{homeTeam.score ?? 0}</div>
-            )}
-          </div>
+          {/* Home */}
+          <TeamBlock
+            team={homeTeam}
+            label="Home"
+            score={isLive || isFinal ? homeTeam.score : undefined}
+          />
         </div>
       </div>
 
-      {/* Odds + Predictions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* ── Odds + Predictions ─────────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <OddsPanel bestLines={bestLines} />
         <PredictionsPanel
           prediction={prediction}
@@ -102,8 +80,65 @@ export default function GameCenter({ boxscore, bestLines, prediction }: GameCent
         />
       </div>
 
-      {/* Box Score */}
+      {/* ── Box Score ──────────────────────────────────────── */}
       <BoxScore boxscore={boxscore} />
+    </div>
+  );
+}
+
+function TeamBlock({
+  team,
+  label,
+  score,
+}: {
+  team: { logo?: string; abbrev: string; placeName?: { default?: string } };
+  label: string;
+  score?: number;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-3">
+      {team.logo ? (
+        <Image
+          src={team.logo}
+          alt={team.abbrev}
+          width={64}
+          height={64}
+          className="object-contain opacity-90"
+          unoptimized
+        />
+      ) : (
+        <div
+          className="w-16 h-16 rounded flex items-center justify-center"
+          style={{ background: '#1C1C1C', border: '1px solid #242424' }}
+        >
+          <span style={{ fontSize: '1.125rem', fontWeight: 700, color: '#524D47' }}>
+            {team.abbrev.slice(0, 2)}
+          </span>
+        </div>
+      )}
+      <div className="text-center">
+        <p style={{ fontSize: '1rem', fontWeight: 600, color: '#EDE8E0', letterSpacing: '-0.02em' }}>
+          {team.placeName?.default ?? team.abbrev}
+        </p>
+        <p style={{ fontSize: '0.5625rem', color: '#524D47', letterSpacing: '0.08em',
+          textTransform: 'uppercase', marginTop: '0.125rem' }}>
+          {label}
+        </p>
+      </div>
+      {score !== undefined && (
+        <p
+          style={{
+            fontFamily: 'var(--font-mono, monospace)',
+            fontSize: '2.5rem',
+            fontWeight: 700,
+            color: '#C6973F',
+            letterSpacing: '-0.04em',
+            lineHeight: 1,
+          }}
+        >
+          {score}
+        </p>
+      )}
     </div>
   );
 }

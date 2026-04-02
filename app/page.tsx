@@ -40,43 +40,85 @@ export default async function TodayPage() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">
-          NHL <span className="text-yellow-400">Today</span>
+    <div className="space-y-10 animate-fade-in">
+      {/* ── Page header ───────────────────────────────────── */}
+      <div className="pb-6" style={{ borderBottom: '1px solid #1C1C1C' }}>
+        <p
+          className="text-2xs font-semibold tracking-label uppercase mb-2"
+          style={{ color: '#8A6B2C', letterSpacing: '0.12em', fontSize: '0.625rem' }}
+        >
+          NHL · {formatDate(getTodayDateString())}
+        </p>
+        <h1
+          className="text-4xl font-semibold tracking-tight"
+          style={{ color: '#EDE8E0', letterSpacing: '-0.035em' }}
+        >
+          Today&apos;s&nbsp;
+          <span
+            style={{
+              background: 'linear-gradient(135deg, #C6973F 0%, #DEB96A 50%, #C6973F 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            Games
+          </span>
         </h1>
-        <p className="text-gray-400 mt-1">{formatDate(getTodayDateString())}</p>
+        <p className="mt-1.5 text-sm" style={{ color: '#8A8278' }}>
+          Live odds, AI predictions &amp; sharp edges — updated every 60 seconds.
+        </p>
       </div>
 
+      {/* ── Error banner ──────────────────────────────────── */}
       {error && (
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+        <div
+          className="rounded px-4 py-3 text-sm"
+          style={{
+            background: 'rgba(192,64,64,0.08)',
+            border: '1px solid rgba(192,64,64,0.2)',
+            color: '#C04040',
+          }}
+        >
           {error}
         </div>
       )}
 
-      {/* Live Scoreboard Strip */}
+      {/* ── Live scoreboard strip ─────────────────────────── */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-          Today&apos;s Games
-        </h2>
+        <p
+          className="label mb-3"
+          style={{ fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.12em',
+            textTransform: 'uppercase', color: '#8A8278' }}
+        >
+          Live &amp; Upcoming
+        </p>
         <ScoreboardStrip games={games} />
       </section>
 
-      {/* Main Content */}
+      {/* ── Main grid ─────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Top Edges */}
+        {/* Sidebar — Top Edges */}
         <div className="lg:col-span-1">
           <TopEdges predictions={predictions} games={games} />
         </div>
 
-        {/* Game Cards */}
+        {/* Main — Game Cards */}
         <div className="lg:col-span-2">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+          <p
+            className="label mb-4"
+            style={{ fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: '#8A8278' }}
+          >
             All Games
-          </h2>
+          </p>
           {games.length === 0 && !error ? (
-            <div className="text-gray-500 py-8 text-center">No games scheduled today.</div>
+            <div
+              className="rounded py-16 text-center text-sm"
+              style={{ color: '#524D47', border: '1px dashed #1C1C1C' }}
+            >
+              No games scheduled today.
+            </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {games.map((game) => {

@@ -14,18 +14,32 @@ export default async function StandingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">
-          NHL <span className="text-yellow-400">Standings</span>
+    <div className="space-y-8 animate-fade-in">
+      {/* Header */}
+      <div className="pb-6" style={{ borderBottom: '1px solid #1C1C1C' }}>
+        <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
+          textTransform: 'uppercase', color: '#8A6B2C', marginBottom: '0.5rem' }}>
+          NHL · 2024–25
+        </p>
+        <h1 className="text-4xl font-semibold" style={{ color: '#EDE8E0', letterSpacing: '-0.035em' }}>
+          NHL{' '}
+          <span style={{
+            background: 'linear-gradient(135deg, #C6973F 0%, #DEB96A 50%, #C6973F 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}>
+            Standings
+          </span>
         </h1>
-        <p className="text-gray-400 mt-1">
-          Click any column header to sort. Click again to reverse.
+        <p className="mt-1.5 text-sm" style={{ color: '#8A8278' }}>
+          Click any column header to sort.
         </p>
       </div>
 
       {error && (
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+        <div className="rounded px-4 py-3 text-sm"
+          style={{ background: 'rgba(192,64,64,0.08)', border: '1px solid rgba(192,64,64,0.2)', color: '#C04040' }}>
           {error}
         </div>
       )}

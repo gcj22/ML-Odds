@@ -123,7 +123,7 @@ function Th({
     >
       {label}
       {colKey === sortKey && (
-        <span className="ml-1 text-yellow-400">
+        <span className="ml-1 text-[#C6973F]">
           {sortDir === 'desc' ? '▼' : '▲'}
         </span>
       )}
@@ -138,19 +138,19 @@ function SkatersTable({ skaters }: { skaters: ESPNSkaterStat[] }) {
 
   if (skaters.length === 0) {
     return (
-      <p className="text-gray-500 text-sm py-4 text-center">No skater data.</p>
+      <p className="text-[#524D47] text-sm py-4 text-center">No skater data.</p>
     );
   }
 
   return (
-    <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
-      <div className="px-4 py-3 border-b border-[rgb(var(--border))]">
+    <div className="rounded overflow-hidden">
+      <div className="px-4 py-3 border-b border-[#242424]">
         <span className="text-sm font-semibold">Skaters</span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-[rgb(var(--card))] text-[rgb(var(--muted))]">
-            <tr className="border-b border-[rgb(var(--border))]">
+          <thead className="sticky top-0 bg-[#121212]">
+            <tr className="border-b border-[#242424]">
               <th className="px-4 py-3 text-left whitespace-nowrap">Player</th>
               <th className="px-3 py-3 text-center whitespace-nowrap">Team</th>
               <th className="px-3 py-3 text-center whitespace-nowrap">Pos</th>
@@ -182,7 +182,7 @@ function SkatersTable({ skaters }: { skaters: ESPNSkaterStat[] }) {
           </thead>
           <tbody className="[&>tr:nth-child(even)]:bg-white/[0.02]">
             {sorted.map((s) => (
-              <tr key={s.id} className="border-b border-[rgb(var(--border))]/60">
+              <tr key={s.id} className="border-b border-[#1C1C1C]">
                 <td className="px-4 py-3 font-medium whitespace-nowrap">
                   {s.name}
                 </td>
@@ -201,7 +201,7 @@ function SkatersTable({ skaters }: { skaters: ESPNSkaterStat[] }) {
                 <td className="px-3 py-3 text-center font-mono text-xs">
                   {s.assists}
                 </td>
-                <td className="px-3 py-3 text-center font-mono text-xs text-yellow-400 font-bold">
+                <td className="px-3 py-3 text-center font-mono text-xs text-[#C6973F] font-bold">
                   {s.points}
                 </td>
                 <td className="px-3 py-3 text-center font-mono text-xs">
@@ -245,19 +245,19 @@ function GoaliesTable({ goalies }: { goalies: ESPNGoalieStat[] }) {
 
   if (goalies.length === 0) {
     return (
-      <p className="text-gray-500 text-sm py-4 text-center">No goalie data.</p>
+      <p className="text-[#524D47] text-sm py-4 text-center">No goalie data.</p>
     );
   }
 
   return (
-    <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
-      <div className="px-4 py-3 border-b border-[rgb(var(--border))]">
+    <div className="rounded overflow-hidden">
+      <div className="px-4 py-3 border-b border-[#242424]">
         <span className="text-sm font-semibold">Goalies</span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-[rgb(var(--card))] text-[rgb(var(--muted))]">
-            <tr className="border-b border-[rgb(var(--border))]">
+          <thead className="sticky top-0 bg-[#121212]">
+            <tr className="border-b border-[#242424]">
               <th className="px-4 py-3 text-left whitespace-nowrap">Player</th>
               <th className="px-3 py-3 text-center whitespace-nowrap">Team</th>
               {(
@@ -288,7 +288,7 @@ function GoaliesTable({ goalies }: { goalies: ESPNGoalieStat[] }) {
           </thead>
           <tbody className="[&>tr:nth-child(even)]:bg-white/[0.02]">
             {sorted.map((g) => (
-              <tr key={g.id} className="border-b border-[rgb(var(--border))]/60">
+              <tr key={g.id} className="border-b border-[#1C1C1C]">
                 <td className="px-4 py-3 font-medium whitespace-nowrap">
                   {g.name}
                 </td>
@@ -301,7 +301,7 @@ function GoaliesTable({ goalies }: { goalies: ESPNGoalieStat[] }) {
                 <td className="px-3 py-3 text-center font-mono text-xs">
                   {g.gamesStarted}
                 </td>
-                <td className="px-3 py-3 text-center font-mono text-xs text-yellow-400 font-bold">
+                <td className="px-3 py-3 text-center font-mono text-xs text-[#C6973F] font-bold">
                   {g.wins}
                 </td>
                 <td className="px-3 py-3 text-center font-mono text-xs">
@@ -354,14 +354,14 @@ function RosterTable({ players }: { players: ESPNRosterPlayer[] }) {
   return (
     <div className="space-y-4">
       {skaters.length > 0 && (
-        <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
-          <div className="px-4 py-3 border-b border-[rgb(var(--border))]">
+        <div className="rounded overflow-hidden">
+          <div className="px-4 py-3 border-b border-[#242424]">
             <span className="text-sm font-semibold">Skaters</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-[rgb(var(--card))] text-[rgb(var(--muted))]">
-                <tr className="border-b border-[rgb(var(--border))]">
+              <thead className="sticky top-0 bg-[#121212]">
+                <tr className="border-b border-[#242424]">
                   <th className="px-4 py-3 text-left whitespace-nowrap">
                     Player
                   </th>
@@ -392,7 +392,7 @@ function RosterTable({ players }: { players: ESPNRosterPlayer[] }) {
                 {skaters.map((p) => (
                   <tr
                     key={p.id}
-                    className="border-b border-[rgb(var(--border))]/60"
+                    className="border-b border-[#1C1C1C]"
                   >
                     <td className="px-4 py-3 font-medium whitespace-nowrap">
                       {p.name}
@@ -409,7 +409,7 @@ function RosterTable({ players }: { players: ESPNRosterPlayer[] }) {
                     <td className="px-3 py-3 text-center font-mono text-xs">
                       {p.assists}
                     </td>
-                    <td className="px-3 py-3 text-center font-mono text-xs text-yellow-400 font-bold">
+                    <td className="px-3 py-3 text-center font-mono text-xs text-[#C6973F] font-bold">
                       {p.points}
                     </td>
                     <td className="px-3 py-3 text-center font-mono text-xs">
@@ -423,14 +423,14 @@ function RosterTable({ players }: { players: ESPNRosterPlayer[] }) {
         </div>
       )}
       {goalies.length > 0 && (
-        <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
-          <div className="px-4 py-3 border-b border-[rgb(var(--border))]">
+        <div className="rounded overflow-hidden">
+          <div className="px-4 py-3 border-b border-[#242424]">
             <span className="text-sm font-semibold">Goalies</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-[rgb(var(--card))] text-[rgb(var(--muted))]">
-                <tr className="border-b border-[rgb(var(--border))]">
+              <thead className="sticky top-0 bg-[#121212]">
+                <tr className="border-b border-[#242424]">
                   <th className="px-4 py-3 text-left whitespace-nowrap">
                     Player
                   </th>
@@ -449,7 +449,7 @@ function RosterTable({ players }: { players: ESPNRosterPlayer[] }) {
                 {goalies.map((p) => (
                   <tr
                     key={p.id}
-                    className="border-b border-[rgb(var(--border))]/60"
+                    className="border-b border-[#1C1C1C]"
                   >
                     <td className="px-4 py-3 font-medium whitespace-nowrap">
                       {p.name}
@@ -485,14 +485,14 @@ function RosterTable({ players }: { players: ESPNRosterPlayer[] }) {
 function Spinner() {
   return (
     <div className="flex items-center justify-center py-16">
-      <div className="h-8 w-8 rounded-full border-2 border-yellow-400/30 border-t-yellow-400 animate-spin" />
+      <div className="h-8 w-8 rounded-full border-2 border-[rgba(198,151,63,0.2)] border-t-[#C6973F] animate-spin" />
     </div>
   );
 }
 
 function ErrorBox({ message }: { message: string }) {
   return (
-    <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+    <div className="rounded px-4 py-3 text-sm">
       {message}
     </div>
   );
@@ -585,8 +585,8 @@ function AllPlayersTab() {
             onClick={() => switchType(t)}
             className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
               type === t
-                ? 'bg-yellow-400 text-black'
-                : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                ? 'bg-[#C6973F] text-[#0C0C0C]'
+                : 'bg-white/5 text-[#EDE8E0] hover:bg-white/10'
             }`}
           >
             {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -610,17 +610,17 @@ function AllPlayersTab() {
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="px-3 py-1.5 rounded text-sm bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 rounded text-sm bg-[#1C1C1C] hover:bg-[#242424] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             ← Prev
           </button>
-          <span className="text-sm text-gray-400">
+          <span className="text-sm text-[#8A8278]">
             Page {page} of {totalPages}
           </span>
           <button
             disabled={page >= totalPages}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            className="px-3 py-1.5 rounded text-sm bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 rounded text-sm bg-[#1C1C1C] hover:bg-[#242424] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             Next →
           </button>
@@ -674,7 +674,7 @@ function TeamRosterTab() {
     <div className="space-y-4">
       {/* Team dropdown */}
       <div className="flex items-center gap-3">
-        <label htmlFor="team-select" className="text-sm text-gray-400 shrink-0">
+        <label htmlFor="team-select" className="text-sm text-[#8A8278] shrink-0">
           Select team:
         </label>
         {teamsLoading ? (
@@ -684,7 +684,7 @@ function TeamRosterTab() {
             id="team-select"
             value={selectedTeamId}
             onChange={(e) => fetchRoster(e.target.value)}
-            className="bg-[rgb(var(--card))] border border-[rgb(var(--border))] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-yellow-400/50 min-w-[200px]"
+            className="bg-[#121212] border border-[#242424] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-[rgba(198,151,63,0.4)] min-w-[200px]"
           >
             <option value="">— choose a team —</option>
             {teams.map((t) => (
@@ -699,7 +699,7 @@ function TeamRosterTab() {
       {error && <ErrorBox message={`Error: ${error}`} />}
 
       {!selectedTeamId && !teamsLoading && (
-        <p className="text-gray-500 text-sm">
+        <p className="text-[#524D47] text-sm">
           Select a team to see roster stats.
         </p>
       )}
@@ -709,10 +709,10 @@ function TeamRosterTab() {
       {!rosterLoading && selectedTeamId && (
         <>
           {teamName && (
-            <h3 className="text-lg font-semibold text-yellow-400">{teamName}</h3>
+            <h3 className="text-lg font-semibold text-[#C6973F]">{teamName}</h3>
           )}
           {skaters.length === 0 && goalies.length === 0 && !error ? (
-            <p className="text-gray-500 text-sm">No roster data available.</p>
+            <p className="text-[#524D47] text-sm">No roster data available.</p>
           ) : (
             <RosterTable players={[...skaters, ...goalies]} />
           )}
@@ -767,11 +767,11 @@ function SearchTab() {
           value={query}
           onChange={handleInput}
           placeholder="Search player name… (e.g. McDavid)"
-          className="flex-1 bg-[rgb(var(--card))] border border-[rgb(var(--border))] rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400/50"
+          className="flex-1 bg-[#121212] border border-[#242424] rounded px-3 py-2 text-sm text-white placeholder-[#524D47] focus:outline-none focus:border-[rgba(198,151,63,0.4)]"
         />
         <button
           onClick={() => doSearch(query)}
-          className="px-4 py-2 rounded text-sm font-medium bg-yellow-400 text-black hover:bg-yellow-300 transition-colors"
+          className="px-4 py-2 rounded text-sm font-medium bg-[#C6973F] text-[#0C0C0C] hover:bg-[#DEB96A] transition-colors"
         >
           Search
         </button>
@@ -781,14 +781,14 @@ function SearchTab() {
       {loading && <Spinner />}
 
       {!loading && searched && results.length === 0 && !error && (
-        <p className="text-gray-500 text-sm">No players found.</p>
+        <p className="text-[#524D47] text-sm">No players found.</p>
       )}
 
       {!loading && results.length > 0 && (
-        <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] overflow-hidden">
+        <div className="rounded overflow-hidden">
           <table className="w-full text-sm">
             <thead className="text-[rgb(var(--muted))]">
-              <tr className="border-b border-[rgb(var(--border))]">
+              <tr className="border-b border-[#242424]">
                 <th className="px-4 py-3 text-left">Player</th>
                 <th className="px-3 py-3 text-center">Pos</th>
                 <th className="px-3 py-3 text-center">Team</th>
@@ -796,7 +796,7 @@ function SearchTab() {
             </thead>
             <tbody className="[&>tr:nth-child(even)]:bg-white/[0.02]">
               {results.map((r) => (
-                <tr key={r.id} className="border-b border-[rgb(var(--border))]/60">
+                <tr key={r.id} className="border-b border-[#1C1C1C]">
                   <td className="px-4 py-3 font-medium whitespace-nowrap">
                     {r.headshot && (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -814,7 +814,7 @@ function SearchTab() {
                   <td className="px-3 py-3 text-center text-xs">
                     <span className="font-mono">{r.teamAbbr}</span>
                     {r.teamName !== r.teamAbbr && r.teamName !== '—' && (
-                      <span className="ml-1 text-gray-400">({r.teamName})</span>
+                      <span className="ml-1 text-[#8A8278]">({r.teamName})</span>
                     )}
                   </td>
                 </tr>
@@ -842,15 +842,15 @@ export default function PlayerStatsTabs() {
   return (
     <div className="space-y-5">
       {/* Tab bar */}
-      <div className="flex gap-1 border-b border-[rgb(var(--border))] overflow-x-auto">
+      <div className="flex gap-1 border-b border-[#242424] overflow-x-auto">
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setActiveTab(t.id)}
             className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors -mb-px ${
               activeTab === t.id
-                ? 'border-yellow-400 text-yellow-400'
-                : 'border-transparent text-gray-400 hover:text-white'
+                ? 'border-yellow-400 text-[#C6973F]'
+                : 'border-transparent text-[#8A8278] hover:text-white'
             }`}
           >
             {t.label}

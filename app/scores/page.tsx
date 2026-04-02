@@ -46,25 +46,34 @@ export default async function ScoresPage({ searchParams }: ScoresPageProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-4">
+    <div className="space-y-8 animate-fade-in">
+      {/* Header */}
+      <div className="flex items-center justify-between flex-wrap gap-4 pb-6"
+        style={{ borderBottom: '1px solid #1C1C1C' }}>
         <div>
-          <h1 className="text-3xl font-bold">
-            NHL <span className="text-yellow-400">Scores</span>
+          <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
+            textTransform: 'uppercase', color: '#8A6B2C', marginBottom: '0.5rem' }}>
+            NHL · Scores
+          </p>
+          <h1 className="text-4xl font-semibold" style={{ color: '#EDE8E0', letterSpacing: '-0.035em' }}>
+            {formatDate(date)}
           </h1>
-          <p className="text-gray-400 mt-1">{formatDate(date)}</p>
         </div>
         <DatePicker currentDate={date} basePath="/scores" />
       </div>
 
       {error && (
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+        <div className="rounded px-4 py-3 text-sm"
+          style={{ background: 'rgba(192,64,64,0.08)', border: '1px solid rgba(192,64,64,0.2)', color: '#C04040' }}>
           {error}
         </div>
       )}
 
       {games.length === 0 && !error ? (
-        <div className="text-gray-500 py-12 text-center">No games on {formatDate(date)}.</div>
+        <div className="rounded py-16 text-center text-sm"
+          style={{ color: '#524D47', border: '1px dashed #1C1C1C' }}>
+          No games on {formatDate(date)}.
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {games.map((game) => {

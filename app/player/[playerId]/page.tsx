@@ -28,10 +28,17 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
   if (error) {
     return (
       <div className="space-y-4">
-        <Link href="/stats/players" className="text-gray-400 hover:text-yellow-400 text-sm">
+        <Link
+          href="/stats/players"
+          style={{ fontSize: '0.8125rem', color: '#524D47' }}
+        >
           ← Back to Player Stats
         </Link>
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+        <div
+          className="rounded px-4 py-3 text-sm"
+          style={{ background: 'rgba(192,64,64,0.08)', border: '1px solid rgba(192,64,64,0.2)',
+            color: '#C04040' }}
+        >
           {error}
         </div>
       </div>
@@ -53,69 +60,84 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
   const heightIn = player.heightInInches % 12;
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-6 max-w-4xl animate-fade-in">
       {/* Back link */}
-      <Link href="/stats/players" className="text-gray-400 hover:text-yellow-400 text-sm transition-colors">
+      <Link
+        href="/stats/players"
+        style={{ fontSize: '0.8125rem', color: '#524D47', transition: 'color 200ms',
+          display: 'inline-block' }}
+      >
         ← Back to Player Stats
       </Link>
 
       {/* Player header */}
-      <div className="bg-card border border-border rounded-xl p-6">
+      <div
+        className="rounded"
+        style={{ background: '#121212', border: '1px solid #242424', padding: '1.5rem' }}
+      >
         <div className="flex flex-wrap gap-6 items-start">
-          {/* Headshot */}
           {player.headshot && (
             <Image
               src={player.headshot}
               alt={fullName}
-              width={120}
-              height={120}
-              className="rounded-xl object-cover"
+              width={100}
+              height={100}
+              className="rounded object-cover"
+              style={{ border: '1px solid #242424' }}
               unoptimized
             />
           )}
 
-          <div className="flex-1 min-w-[200px]">
-            {/* Team logo + name */}
+          <div className="flex-1" style={{ minWidth: '200px' }}>
             <div className="flex items-center gap-3 mb-2">
               {player.teamLogo && (
                 <Image
                   src={player.teamLogo}
                   alt={player.teamAbbrev ?? ''}
-                  width={36}
-                  height={36}
-                  className="object-contain"
+                  width={32}
+                  height={32}
+                  className="object-contain opacity-90"
                   unoptimized
                 />
               )}
-              <span className="text-sm text-gray-400">{player.teamAbbrev}</span>
+              <span style={{ fontSize: '0.75rem', color: '#524D47', letterSpacing: '0.06em' }}>
+                {player.teamAbbrev}
+              </span>
             </div>
 
-            <h1 className="text-3xl font-bold text-white mb-1">{fullName}</h1>
+            <h1
+              className="text-3xl font-semibold mb-3"
+              style={{ color: '#EDE8E0', letterSpacing: '-0.03em' }}
+            >
+              {fullName}
+            </h1>
 
-            <div className="flex flex-wrap gap-4 text-sm text-gray-400 mt-3">
+            <div className="flex flex-wrap gap-4" style={{ fontSize: '0.8125rem', color: '#8A8278' }}>
               <span>
-                <span className="text-gray-600">#</span>
-                <span className="text-white font-semibold ml-1">{player.sweaterNumber}</span>
+                <span style={{ color: '#524D47' }}>#</span>
+                <span style={{ color: '#EDE8E0', fontWeight: 600, marginLeft: '0.25rem' }}>
+                  {player.sweaterNumber}
+                </span>
               </span>
               <span>
-                <span className="text-gray-600">Pos: </span>
-                <span className="text-yellow-400 font-semibold">{player.position}</span>
+                <span style={{ color: '#524D47' }}>Pos </span>
+                <span style={{ color: '#C6973F', fontWeight: 600 }}>{player.position}</span>
               </span>
               <span>
-                <span className="text-gray-600">Age: </span>
-                <span className="text-white">{age}</span>
+                <span style={{ color: '#524D47' }}>Age </span>
+                <span style={{ color: '#EDE8E0' }}>{age}</span>
               </span>
               <span>
-                <span className="text-gray-600">Height: </span>
-                <span className="text-white">{heightFt}&apos;{heightIn}&quot;</span>
+                <span style={{ color: '#524D47' }}>Ht </span>
+                <span style={{ color: '#EDE8E0' }}>{heightFt}&apos;{heightIn}&quot;</span>
               </span>
               <span>
-                <span className="text-gray-600">Weight: </span>
-                <span className="text-white">{player.weightInPounds} lbs</span>
+                <span style={{ color: '#524D47' }}>Wt </span>
+                <span style={{ color: '#EDE8E0' }}>{player.weightInPounds} lbs</span>
               </span>
               <span>
-                <span className="text-gray-600">Born: </span>
-                <span className="text-white">
+                <span style={{ color: '#524D47' }}>Born </span>
+                <span style={{ color: '#EDE8E0' }}>
                   {player.birthCity?.default}, {player.birthCountry}
                 </span>
               </span>
@@ -126,103 +148,97 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
 
       {/* Current season stats */}
       {stats && (
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h2 className="text-lg font-bold mb-4">
-            Current Season Stats
+        <div
+          className="rounded overflow-hidden"
+          style={{ background: '#121212', border: '1px solid #242424' }}
+        >
+          <div
+            className="px-4 py-3 flex items-center justify-between"
+            style={{ borderBottom: '1px solid #1C1C1C' }}
+          >
+            <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: '#C6973F' }}>
+              Current Season
+            </p>
             {player.featuredStats?.season && (
-              <span className="text-sm font-normal text-gray-400 ml-2">
+              <p style={{ fontSize: '0.6875rem', color: '#524D47' }}>
                 {String(player.featuredStats.season).slice(0, 4)}–
                 {String(player.featuredStats.season).slice(4)}
-              </span>
+              </p>
             )}
-          </h2>
+          </div>
 
-          {isGoalie ? (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { label: 'GP', value: stats.gamesPlayed },
-                { label: 'W', value: stats.wins },
-                { label: 'L', value: stats.losses },
-                { label: 'SO', value: stats.shutouts },
-                {
-                  label: 'GAA',
-                  value: stats.goalsAgainstAvg?.toFixed(2),
-                  color: 'text-red-400',
-                },
-                {
-                  label: 'SV%',
-                  value: stats.savePctg?.toFixed(3),
-                  color: 'text-green-400',
-                },
-              ].map(({ label, value, color }) => (
-                <div key={label} className="bg-black/30 rounded-lg p-4 text-center">
-                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">{label}</div>
-                  <div className={`text-2xl font-bold font-mono ${color ?? 'text-white'}`}>
-                    {value ?? '—'}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { label: 'GP', value: stats.gamesPlayed },
-                { label: 'G', value: stats.goals },
-                { label: 'A', value: stats.assists },
-                { label: 'PTS', value: stats.points, color: 'text-yellow-400' },
-                {
-                  label: '+/-',
-                  value:
-                    stats.plusMinus !== undefined
-                      ? stats.plusMinus > 0
-                        ? `+${stats.plusMinus}`
-                        : stats.plusMinus
+          <div className="p-4">
+            {isGoalie ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {[
+                  { label: 'GP', value: stats.gamesPlayed, color: undefined },
+                  { label: 'W', value: stats.wins, color: '#4A9B6F' },
+                  { label: 'L', value: stats.losses, color: '#C04040' },
+                  { label: 'SO', value: stats.shutouts, color: '#C6973F' },
+                  { label: 'GAA', value: stats.goalsAgainstAvg?.toFixed(2), color: '#C04040' },
+                  { label: 'SV%', value: stats.savePctg?.toFixed(3), color: '#4A9B6F' },
+                ].map(({ label, value, color }) => (
+                  <StatBox key={label} label={label} value={String(value ?? '—')} color={color} />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {[
+                  { label: 'GP',   value: stats.gamesPlayed, color: undefined },
+                  { label: 'G',    value: stats.goals,       color: undefined },
+                  { label: 'A',    value: stats.assists,     color: undefined },
+                  { label: 'PTS',  value: stats.points,      color: '#C6973F' },
+                  {
+                    label: '+/-',
+                    value: stats.plusMinus !== undefined
+                      ? stats.plusMinus > 0 ? `+${stats.plusMinus}` : stats.plusMinus
                       : undefined,
-                  color:
-                    stats.plusMinus !== undefined
-                      ? stats.plusMinus > 0
-                        ? 'text-green-400'
-                        : stats.plusMinus < 0
-                        ? 'text-red-400'
-                        : ''
-                      : '',
-                },
-                { label: 'TOI/G', value: stats.avgToi },
-              ].map(({ label, value, color }) => (
-                <div key={label} className="bg-black/30 rounded-lg p-4 text-center">
-                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">{label}</div>
-                  <div className={`text-2xl font-bold font-mono ${color ?? 'text-white'}`}>
-                    {value ?? '—'}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                    color: stats.plusMinus !== undefined
+                      ? stats.plusMinus > 0 ? '#4A9B6F'
+                        : stats.plusMinus < 0 ? '#C04040' : undefined
+                      : undefined,
+                  },
+                  { label: 'TOI/G', value: stats.avgToi, color: undefined },
+                ].map(({ label, value, color }) => (
+                  <StatBox key={label} label={label} value={String(value ?? '—')} color={color} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       {/* Last 5 games */}
       {player.last5Games && player.last5Games.length > 0 && (
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h2 className="text-lg font-bold mb-4">Last 5 Games</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+        <div
+          className="rounded overflow-hidden"
+          style={{ background: '#121212', border: '1px solid #242424' }}
+        >
+          <div className="px-4 py-3" style={{ borderBottom: '1px solid #1C1C1C' }}>
+            <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: '#C6973F' }}>
+              Last 5 Games
+            </p>
+          </div>
+          <div className="overflow-x-auto p-4">
+            <table className="w-full" style={{ borderCollapse: 'collapse' }}>
               <thead>
-                <tr className="border-b border-border text-gray-400">
-                  <th className="pb-2 text-left font-semibold">Game</th>
+                <tr style={{ borderBottom: '1px solid #1C1C1C' }}>
+                  <th style={thStyle('left')}>Game</th>
                   {isGoalie ? (
                     <>
-                      <th className="pb-2 text-center font-semibold">Dec</th>
-                      <th className="pb-2 text-center font-semibold">SV%</th>
-                      <th className="pb-2 text-center font-semibold">TOI</th>
+                      <th style={thStyle()}>Dec</th>
+                      <th style={thStyle()}>SV%</th>
+                      <th style={thStyle()}>TOI</th>
                     </>
                   ) : (
                     <>
-                      <th className="pb-2 text-center font-semibold">G</th>
-                      <th className="pb-2 text-center font-semibold">A</th>
-                      <th className="pb-2 text-center font-semibold">PTS</th>
-                      <th className="pb-2 text-center font-semibold">+/-</th>
-                      <th className="pb-2 text-center font-semibold">TOI</th>
+                      <th style={thStyle()}>G</th>
+                      <th style={thStyle()}>A</th>
+                      <th style={thStyle()}>PTS</th>
+                      <th style={thStyle()}>+/-</th>
+                      <th style={thStyle()}>TOI</th>
                     </>
                   )}
                 </tr>
@@ -231,52 +247,33 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
                 {player.last5Games.map((g, i) => (
                   <tr
                     key={g.gameId ?? i}
-                    className="border-b border-border/50 hover:bg-white/[0.02]"
+                    style={{ borderBottom: i < (player.last5Games?.length ?? 0) - 1
+                      ? '1px solid #1C1C1C' : 'none' }}
                   >
-                    <td className="py-2 text-gray-500 text-xs font-mono">{g.gameId}</td>
+                    <td style={tdStyle()}>{g.gameId}</td>
                     {isGoalie ? (
                       <>
-                        <td className="py-2 text-center text-xs">
-                          <span
-                            className={
-                              g.decision === 'W'
-                                ? 'text-green-400'
-                                : g.decision === 'L'
-                                ? 'text-red-400'
-                                : 'text-gray-400'
-                            }
-                          >
-                            {g.decision ?? '—'}
-                          </span>
+                        <td style={tdStyle(g.decision === 'W' ? '#4A9B6F'
+                          : g.decision === 'L' ? '#C04040' : undefined)}>
+                          {g.decision ?? '—'}
                         </td>
-                        <td className="py-2 text-center font-mono text-green-400">
-                          {g.savePctg?.toFixed(3) ?? '—'}
-                        </td>
-                        <td className="py-2 text-center font-mono text-gray-400">{g.toi ?? '—'}</td>
+                        <td style={tdStyle('#4A9B6F')}>{g.savePctg?.toFixed(3) ?? '—'}</td>
+                        <td style={tdStyle('#524D47')}>{g.toi ?? '—'}</td>
                       </>
                     ) : (
                       <>
-                        <td className="py-2 text-center font-mono">{g.goals ?? 0}</td>
-                        <td className="py-2 text-center font-mono">{g.assists ?? 0}</td>
-                        <td className="py-2 text-center font-mono text-yellow-400">
-                          {(g.goals ?? 0) + (g.assists ?? 0)}
-                        </td>
-                        <td
-                          className={`py-2 text-center font-mono ${
-                            (g.plusMinus ?? 0) > 0
-                              ? 'text-green-400'
-                              : (g.plusMinus ?? 0) < 0
-                              ? 'text-red-400'
-                              : 'text-gray-400'
-                          }`}
-                        >
+                        <td style={tdStyle()}>{g.goals ?? 0}</td>
+                        <td style={tdStyle()}>{g.assists ?? 0}</td>
+                        <td style={tdStyle('#C6973F')}>{(g.goals ?? 0) + (g.assists ?? 0)}</td>
+                        <td style={tdStyle(
+                          (g.plusMinus ?? 0) > 0 ? '#4A9B6F'
+                            : (g.plusMinus ?? 0) < 0 ? '#C04040' : undefined
+                        )}>
                           {g.plusMinus !== undefined
-                            ? g.plusMinus > 0
-                              ? `+${g.plusMinus}`
-                              : g.plusMinus
+                            ? g.plusMinus > 0 ? `+${g.plusMinus}` : g.plusMinus
                             : '—'}
                         </td>
-                        <td className="py-2 text-center font-mono text-gray-400">{g.toi ?? '—'}</td>
+                        <td style={tdStyle('#524D47')}>{g.toi ?? '—'}</td>
                       </>
                     )}
                   </tr>
@@ -288,4 +285,45 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
       )}
     </div>
   );
+}
+
+function StatBox({ label, value, color }: { label: string; value: string; color?: string }) {
+  return (
+    <div
+      className="rounded text-center"
+      style={{ background: '#0C0C0C', border: '1px solid #242424', padding: '0.875rem' }}
+    >
+      <p style={{ fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.1em',
+        textTransform: 'uppercase', color: '#524D47', marginBottom: '0.375rem' }}>
+        {label}
+      </p>
+      <p style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '1.5rem', fontWeight: 700,
+        color: color ?? '#EDE8E0', letterSpacing: '-0.03em' }}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function thStyle(align?: string): React.CSSProperties {
+  return {
+    padding: '0.375rem 0.5rem',
+    fontSize: '0.5625rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    color: '#524D47',
+    textAlign: (align as 'left' | 'center') ?? 'center',
+    whiteSpace: 'nowrap',
+  };
+}
+
+function tdStyle(color?: string): React.CSSProperties {
+  return {
+    padding: '0.5rem',
+    textAlign: 'center',
+    fontFamily: 'var(--font-mono, monospace)',
+    fontSize: '0.8125rem',
+    color: color ?? '#8A8278',
+  };
 }
