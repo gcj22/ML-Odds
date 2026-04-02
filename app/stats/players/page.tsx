@@ -1,23 +1,11 @@
-import { getNHLSkaterStats, getNHLGoalieStats } from '@/lib/nhl-api';
-import PlayerStatsClient from '@/components/PlayerStatsClient';
+import PlayerStatsTabs from '@/components/PlayerStatsTabs';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 300;
+export const metadata = {
+  title: 'Player Stats – MLOdds',
+  description: 'NHL player stats: leaders, all players, team roster, and search. Powered by ESPN.',
+};
 
-export default async function PlayerStatsPage() {
-  let skaters: Awaited<ReturnType<typeof getNHLSkaterStats>> = [];
-  let goalies: Awaited<ReturnType<typeof getNHLGoalieStats>> = [];
-  let error: string | null = null;
-
-  try {
-    [skaters, goalies] = await Promise.all([
-      getNHLSkaterStats(undefined, 100),
-      getNHLGoalieStats(undefined, 50),
-    ]);
-  } catch (e) {
-    error = e instanceof Error ? e.message : 'Failed to load player stats';
-  }
-
+export default function PlayerStatsPage() {
   return (
     <div className="space-y-6">
       <div>
@@ -25,17 +13,12 @@ export default async function PlayerStatsPage() {
           NHL <span className="text-yellow-400">Player Stats</span>
         </h1>
         <p className="text-gray-400 mt-1">
-          Current season leaders. Click column headers to sort.
+          Leaders · All Players · Team Roster · Search — powered by ESPN.
+          Click column headers to sort.
         </p>
       </div>
 
-      {error && (
-        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
-          {error}
-        </div>
-      )}
-
-      <PlayerStatsClient skaters={skaters} goalies={goalies} />
+      <PlayerStatsTabs />
     </div>
   );
 }
