@@ -11,7 +11,7 @@ export async function getOdds(markets: string[] = ['h2h', 'spreads', 'totals']):
     return [];
   }
 
-  const sport = process.env.ODDS_API_SPORT ?? 'icehockey_nhl';
+  const sport = process.env.ODDS_API_SPORT ?? 'upcoming';
   const region = process.env.ODDS_API_REGION ?? 'us';
   const ttl = parseInt(process.env.ODDS_CACHE_TTL ?? '300', 10);
   const marketsStr = markets.join(',');

@@ -9,13 +9,19 @@ export default async function OddsPage() {
   let error: string | null = null;
 
   try {
-    const oddsGames = await getOdds(['h2h', 'spreads', 'totals']);
+    const oddsGames = await getOdds(['h2h']);
     bestLinesList = computeBestLines(oddsGames);
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load odds';
   }
 
   return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold">
+          Upcoming <span className="text-yellow-400">Odds</span>
+        </h1>
+        <p className="text-gray-400 mt-1">Best available moneyline across all books</p>
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
       <div className="pb-6" style={{ borderBottom: '1px solid #1C1C1C' }}>
@@ -79,6 +85,9 @@ export default async function OddsPage() {
         <OddsTable bestLinesList={bestLinesList} />
       </div>
 
+      <p className="text-xs text-gray-600">
+        Lines sourced from The Odds API. Best moneyline price shown for each side across all available bookmakers.
+        Refresh rate: every 5 minutes.
       <p style={{ fontSize: '0.625rem', color: '#2E2E2E', letterSpacing: '0.04em' }}>
         Lines sourced from The Odds API. Best price shown per side across all available bookmakers.
       </p>
