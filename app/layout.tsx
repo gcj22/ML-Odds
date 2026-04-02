@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 Standings
               </Link>
               <Link href="/stats/players" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
-                Players
+                Player Stats
               </Link>
               <Link href="/odds" className="px-3 py-1.5 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/5 rounded transition-colors whitespace-nowrap">
                 Odds
